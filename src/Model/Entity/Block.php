@@ -39,9 +39,11 @@ class Block extends Entity
 
     public function getFields(): array
     {
+        $hidden_fields = ["content_blocks_block_id", "created", "modified", "id"];
         $fields = [];
+
         foreach ($this->_accessible as $field => $is_accessible) {
-            if ($is_accessible) {
+            if ($is_accessible && !in_array($field, $hidden_fields)) {
                 $fields[$field] = [];
             }
         }
