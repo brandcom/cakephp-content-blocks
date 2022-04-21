@@ -155,6 +155,19 @@ public function getHiddenFields(): array
 E.g., `content_blocks_block_id` is hidden by default, and you may want to make it editable. 
 
 
+### 6. Containing associated Models 
+
+Define a `beforeFind()` method in your `TextContenBlocksTable` 
+
+```
+public function beforeFind(Event $event, Query $query): Query
+{
+    return $query->contain([
+        'Images',
+    ]);
+}
+```
+
 ## Contribution
 
 You can contribute to this project via pull requests or issues. 
