@@ -65,3 +65,74 @@ To add your TextContentBlock to an Entity, e.g., `Article`, add the `BlocksAdmin
 This will render a table representing the BlockArea for the respective entity. 
 
 At the bottom of the table, there will be a button for each of your ContentBlocks. You should already find a button with the title `Text`. 
+
+If you click on the button, a new Block will be added to the Block Area. You can enter content and save.
+
+### 3. Create a template for your block
+
+ContentBlock templates are elements. In your `Template/Element` folder, create the folder `content_blocks/` and the file `text.ctp`. 
+
+The template file name is always the lower_case_underscore version of your model name, omitting the content_block. 
+
+So the template for `MyCoolHeroHeaderContentBlock` will be in `/Template/Element/content_blocks/my_cool_hero_header.ctp`. 
+
+Your `TextContentBlock` Entity will be available as the `$block` variable. 
+
+Now you can create your template: 
+
+```
+<?php
+/**
+ * @var \App\Model\Entity\TextContentBlock $block
+ */
+?>
+<section class="my-12">
+    <h2>
+        <?= $block->title ?>
+    </h2>
+    <div class="content">
+        <?= $block->content ?>
+    </div>
+</section>
+```
+
+> **Note:** You can change the rendering logic in your `TextContentBlock` Entity by overriding the `render()` method. 
+
+### 4. Display the blocks
+
+To render your block area for an entity, add this cell to your template:
+
+```
+<?= $this->cell("ContentBlocks.BlocksArea", ['entity' => $article]) ?>
+```
+
+### 5. Modifying the Admin interface 
+
+If you want to change how fields are displayed, you can override the `getFields()` method in your `TextContentBlock` Entity.
+
+The method should return an array of all editable fields with the field names as keys and an array as value which is passed to `FormHelper::control` as `$options`: 
+
+```
+public function getFields(): array
+{
+    return array_merge(
+        parent::getFields(),
+        [
+            'title' => [
+                'label' => __("Block Title"),
+            ],
+            'style' => [
+                'label' => __("Choose a style for this block."),
+                'options' => [
+                    'default' => __("Default Style"),
+                    'funky' => __("Other cool Style"),
+                ],
+            ],
+        ]
+    );
+}
+```
+
+## Contribution
+
+You can contribute to this project via pull requests or issues. 
