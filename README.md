@@ -133,6 +133,28 @@ public function getFields(): array
 }
 ```
 
+Special field options: 
+* `beforeControl`: Will be rendered before the respective control.
+* `afterControl`: Will be rendered after the respective control. 
+
+To change the hidden fields, override `Block::getHiddenFields()`:
+
+```
+public function getHiddenFields(): array
+{
+    return array_merge(
+        parent::getHiddenFields(),
+        [
+            'some_field',
+            'another_hidden_field',
+        ]
+    );
+}
+```
+
+E.g., `content_blocks_block_id` is hidden by default, and you may want to make it editable. 
+
+
 ## Contribution
 
 You can contribute to this project via pull requests or issues. 

@@ -17,9 +17,11 @@ use ContentBlocks\View\AppView;
         $contentBlock->block->area->owner_id,
     ]) ?>
 </p>
-<?= $this->Form->create($contentBlock) ?>
+<?= $this->Form->create($contentBlock, $contentBlock->getFormOptions()) ?>
 <?php foreach ($contentBlock->getFields() as $field => $options): ?>
+    <?= !empty($options['beforeControl']) ? $options['beforeControl'] : null ?>
     <?= $this->Form->control($field, $options) ?>
+    <?= !empty($options['afterControl']) ? $options['afterControl'] : null ?>
 <?php endforeach; ?>
 <?= $this->Form->submit() ?>
 <?= $this->Form->end() ?>
