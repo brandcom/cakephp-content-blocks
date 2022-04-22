@@ -31,10 +31,10 @@
         <?php foreach ($area->blocks as $block): ?>
             <tr>
                 <td>
-                    <?= h($block->sort) ?>
+                    <?= $this->Number->format($block->sort) ?>
                 </td>
                 <td>
-                    <?= h($block->type) ?>
+                    <?= $block->getTitle() ?>
                 </td>
                 <td>
                     <?= $this->Html->link(__("Edit"), [

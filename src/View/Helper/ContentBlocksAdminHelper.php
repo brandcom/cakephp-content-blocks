@@ -28,53 +28,26 @@ class ContentBlocksAdminHelper extends Helper
         $entities = new Folder(ROOT . DS . 'src' . DS . 'Model' . DS . 'Entity' . DS);
         $blocks = $entities->find(".*\ContentBlock.php");
 
-        $blocks = array_filter(
-            $blocks,
+        $blocks = array_map(
             function ($block) {
-                $reflectionClass = new \ReflectionClass("App\\Model\\Entity\\" .  str_replace('.php', '', $block));
 
-                return $reflectionClass->getParentClass()->getName() === Block::class;
-            }
-        );
+                try {
+                    $reflectionClass = new \ReflectionClass("App\\Model\\Entity\\" . str_replace('.php', '', $block));
 
-        return array_map(
-            function ($block) {
-                return str_replace('ContentBlock.php', '', $block);
+                    return $reflectionClass->newInstance()->getTitle();
+
+                } catch (\Exception $e) {
+                    return null;
+                }
             },
             $blocks
         );
-    }
 
-    public function getFormControl(string $title, $config): string
-    {
-        $type = null;
-        if (is_string($config)) {
-            $type = $config;
-        } elseif (is_array($config)) {
-            $type = $config['type'];
-        }
-
-        if ($type === "Enum") {
-
-            return $this->getSelect($title, $config['options'] ?? []);
-        }
-
-        switch ($type) {
-            case "HTMLText":
-            case "Text":
-                return $this->Form->control($title, [
-                    'type' => "textarea",
-                    'class' => 'content-field--' . strtolower($type)
-                ]);
-        }
-
-        return '';
-    }
-
-    private function getSelect(string $title, array $options): string
-    {
-        return $this->Form->control($title, [
-            'options' => $options,
-        ]);
+        return array_filter(
+            $blocks,
+            function ($block) {
+                return (bool)$block;
+            }
+        );
     }
 }

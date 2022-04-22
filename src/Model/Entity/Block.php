@@ -49,7 +49,7 @@ class Block extends Entity
             "created",
             "modified",
             "id",
-            "block"
+            "block",
         ];
     }
 
@@ -97,5 +97,21 @@ class Block extends Entity
     public function getSetVariables(): array
     {
         return [];
+    }
+
+    /**
+     * Get a human-readable Title for the Admin area
+     *
+     * @return string
+     * @throws \ReflectionException
+     */
+    public function getTitle(): string
+    {
+        $className = empty($this->type) ?
+            str_replace("App\\Model\\Entity\\", "", get_class($this))
+            : Inflector::singularize($this->type);
+        $reflectionClass = new \ReflectionClass("App\\Model\\Entity\\" . $className);
+
+        return $reflectionClass->newInstance()->getTitle();
     }
 }
