@@ -34,7 +34,7 @@ class ContentBlocksAdminHelper extends Helper
                 try {
                     $reflectionClass = new \ReflectionClass("App\\Model\\Entity\\" . str_replace('.php', '', $block));
 
-                    return $reflectionClass->newInstance()->getTitle();
+                    return $reflectionClass->newInstance();
 
                 } catch (\Exception $e) {
                     return null;

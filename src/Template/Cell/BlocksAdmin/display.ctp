@@ -55,8 +55,13 @@
                     <?= __d("ContentBlocks", "Add new block") ?>
                 </p>
                 <div>
-                    <?php foreach ($this->ContentBlocksAdmin->getBlockList() as $type): ?>
-                        <?= $this->Form->postButton($type, [
+                    <?php foreach ($this->ContentBlocksAdmin->getBlockList() as $block): ?>
+                        <?php
+                        /**
+                         * @var \ContentBlocks\Model\Entity\Block $block
+                         */
+                        ?>
+                        <?= $this->Form->postButton($block->getTitle(), [
                             'prefix' => "admin",
                             'plugin' => "ContentBlocks",
                             'controller' => "Blocks",
@@ -64,7 +69,7 @@
                         ], [
                             'data' => [
                                 'area_id' => $area->id,
-                                'type' => $type,
+                                'type' => str_replace(["App\\Model\\Entity\\", "ContentBlock"], "", get_class($block)),
                             ]
                         ]) ?>
                     <?php endforeach; ?>
