@@ -3,7 +3,6 @@ namespace ContentBlocks\View\Helper;
 
 use Cake\Filesystem\Folder;
 use Cake\View\Helper;
-use ContentBlocks\Model\Entity\Block;
 
 /**
  * ContentBlocksAdmin helper

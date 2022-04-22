@@ -8,15 +8,33 @@ use Cake\ORM\Entity;
 use ContentBlocks\Model\Entity\Block;
 use ContentBlocks\View\AppView;
 
+$entity_edit_url = [
+    'plugin' => false,
+    'controller' => \Cake\Utility\Inflector::pluralize(str_replace("App\Model\Entity\\", '', $contentBlock->block->area->owner_model)),
+    'action' => "edit",
+    $contentBlock->block->area->owner_id,
+];
+
 ?>
-<p>
-    <?= $this->Html->link(__d("ContentBlocks", "Go back"), [
-        'plugin' => false,
-        'controller' => \Cake\Utility\Inflector::pluralize(str_replace("App\Model\Entity\\", '', $contentBlock->block->area->owner_model)),
-        'action' => "edit",
-        $contentBlock->block->area->owner_id,
-    ]) ?>
-</p>
+<ul class="actions">
+    <li>
+        <?= $this->Html->link(__d("ContentBlocks", "Go back"), $entity_edit_url) ?>
+    </li>
+    <li>
+        <?= $this->Form->postLink(__d("ContentBlocks", "Delete Block"), [
+            'plugin' => "ContentBlocks",
+            'controller' => "Blocks",
+            'action' => "delete",
+            $contentBlock->id,
+            $contentBlock->block->type,
+        ], [
+            'confirm' => __d("ContentBlocks", "Do you really want to delete Block #{0}?", [$contentBlock->id]),
+            'data' => [
+                'redirect' => \Cake\Routing\Router::url($entity_edit_url),
+            ]
+        ]) ?>
+    </li>
+</ul>
 <?= $this->Form->create($contentBlock, $contentBlock->getFormOptions()) ?>
 <fieldset>
     <legend>

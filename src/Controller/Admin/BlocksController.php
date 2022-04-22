@@ -1,6 +1,7 @@
 <?php
 namespace ContentBlocks\Controller\Admin;
 
+use Cake\ORM\Table;
 use ContentBlocks\Controller\AppController;
 use ContentBlocks\Model\Entity\Block;
 use ContentBlocks\Model\Table\BlocksTable;
@@ -13,22 +14,6 @@ use ContentBlocks\Model\Table\BlocksTable;
  */
 class BlocksController extends AppController
 {
-    /**
-     * View method
-     *
-     * @param string|null $id Content Blocks Block id.
-     * @return \Cake\Http\Response|null
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function view($id = null)
-    {
-        $contentBlocksBlock = $this->ContentBlocksBlocks->get($id, [
-            'contain' => [],
-        ]);
-
-        $this->set('contentBlocksBlock', $contentBlocksBlock);
-    }
-
     /**
      * Add method
      *
@@ -108,16 +93,28 @@ class BlocksController extends AppController
      * @return \Cake\Http\Response|null Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function delete($id = null)
+    public function delete($id, $type)
     {
         $this->request->allowMethod(['post', 'delete']);
-        $contentBlocksBlock = $this->ContentBlocksBlocks->get($id);
-        if ($this->ContentBlocksBlocks->delete($contentBlocksBlock)) {
+
+        $this->loadModel($type);
+        /**
+         * @var Table $blockTable
+         */
+        $blockTable = $this->{$type};
+
+        $block = $blockTable->get($id, [
+            'contain' => [
+                'Blocks',
+            ]
+        ]);
+
+        if ($this->Blocks->delete($block->block) && $blockTable->delete($block)) {
             $this->Flash->success(__('The content blocks block has been deleted.'));
         } else {
             $this->Flash->error(__('The content blocks block could not be deleted. Please, try again.'));
         }
 
-        return $this->redirect(['action' => 'index']);
+        return $this->redirect($this->getRequest()->getData('redirect'));
     }
 }
