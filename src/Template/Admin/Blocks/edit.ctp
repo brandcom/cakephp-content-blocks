@@ -18,10 +18,25 @@ use ContentBlocks\View\AppView;
     ]) ?>
 </p>
 <?= $this->Form->create($contentBlock, $contentBlock->getFormOptions()) ?>
-<?php foreach ($contentBlock->getFields() as $field => $options): ?>
-    <?= !empty($options['beforeControl']) ? $options['beforeControl'] : null ?>
-    <?= $this->Form->control($field, $options) ?>
-    <?= !empty($options['afterControl']) ? $options['afterControl'] : null ?>
-<?php endforeach; ?>
+<fieldset>
+    <legend>
+        <?= __d("ContentBlocks", "Fields for {0}", [
+            $contentBlock->getTitle(),
+        ]) ?>
+    </legend>
+    <?php foreach ($contentBlock->getFields() as $field => $options): ?>
+        <?= !empty($options['beforeControl']) ? $options['beforeControl'] : null ?>
+        <?= $this->Form->control($field, $options) ?>
+        <?= !empty($options['afterControl']) ? $options['afterControl'] : null ?>
+    <?php endforeach; ?>
+</fieldset>
+<fieldset>
+    <legend>
+        <?= __d("ContentBlocks", "General Settings") ?>
+    </legend>
+    <?= $this->Form->control('block.sort', [
+        'label' => __d("ContentBlocks", "Sort Order")
+    ]) ?>
+</fieldset>
 <?= $this->Form->submit() ?>
 <?= $this->Form->end() ?>

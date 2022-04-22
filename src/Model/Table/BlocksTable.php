@@ -1,6 +1,7 @@
 <?php
 namespace ContentBlocks\Model\Table;
 
+use Cake\Event\Event;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -70,5 +71,10 @@ class BlocksTable extends Table
             ->notEmptyString('type');
 
         return $validator;
+    }
+
+    public function beforeFind(Event $event, Query $query): Query
+    {
+        return $query->orderAsc("sort");
     }
 }
