@@ -130,9 +130,11 @@ class BlocksController extends AppController
 
     public function editRelated($id, $type, $relatedModel, $relatedId)
     {
-        debug($relatedModel);
-        debug($relatedId);
-        die();
+        $this->loadModel($relatedModel);
+        $relatedTable = $this->{$relatedModel};
+        $relatedEntity = $relatedTable->get($relatedId);
+
+        $this->set(compact("relatedEntity"));
     }
 
     /**
