@@ -120,4 +120,21 @@ class Block extends Entity
 
         return Inflector::humanize(Inflector::underscore($reflectionClass->getShortName()));
     }
+
+    /**
+     * Return a relational array of Models the Block has a relationship with.
+     *
+     * Input fields will be rendered in the admin form.
+     *
+     * E.g. [
+     *      SlideshowImage::class => __("Slideshow Images"),
+     *      ...
+     * ]
+     *
+     * @return array
+     */
+    public function getManagedModels(): array
+    {
+        return [];
+    }
 }

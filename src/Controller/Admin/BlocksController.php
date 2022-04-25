@@ -55,6 +55,7 @@ class BlocksController extends AppController
     {
         /**
          * @var Block $block
+         * @var Block $contentBlock
          */
         $block = $this->Blocks->get($id);
 
@@ -65,11 +66,32 @@ class BlocksController extends AppController
             ->where([
                 'content_blocks_block_id' => $block->id,
             ])
-            ->contain(['Blocks.Areas'])
+            ->first();
+
+        $contained = [
+            'Blocks.Areas',
+        ];
+
+        if (!empty($contentBlock->getManagedModels())) {
+            $associated = array_map(
+                function ($model) {
+                    return \Cake\Utility\Inflector::pluralize((new \ReflectionClass($model))->getShortName());
+                },
+                array_keys($contentBlock->getManagedModels())
+            );
+
+            $contained = array_merge($contained, $associated);
+        }
+
+        $contentBlock = $this->{$block->type}
+            ->find()
+            ->where([
+                'content_blocks_block_id' => $block->id,
+            ])
+            ->contain($contained)
             ->first();
 
         if ($this->request->is(['patch', 'post', 'put'])) {
-
 
             $contentBlock = $this->{$block->type}->patchEntity($contentBlock,
                 $this->request->getData());
@@ -84,6 +106,24 @@ class BlocksController extends AppController
         }
 
         $this->set(compact('contentBlock'));
+    }
+
+    public function editRelation($id, $type, $relatedModel)
+    {
+
+        $this->request->allowMethod(['post', 'delete']);
+
+        $this->loadModel($type);
+        /**
+         * @var Table $blockTable
+         */
+        $blockTable = $this->{$type};
+
+        $block = $blockTable->get($id, [
+            'contain' => [
+                'Blocks',
+            ]
+        ]);
     }
 
     /**
