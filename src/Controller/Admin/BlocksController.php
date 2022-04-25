@@ -130,11 +130,27 @@ class BlocksController extends AppController
 
     public function editRelated($id, $type, $relatedModel, $relatedId)
     {
+        $this->loadModel($type);
         $this->loadModel($relatedModel);
+
+        $blockTable = $this->{$type};
         $relatedTable = $this->{$relatedModel};
+
+        $block = $blockTable->get($id, [
+            'contain' => ['Blocks'],
+        ]);
         $relatedEntity = $relatedTable->get($relatedId);
 
-        $this->set(compact("relatedEntity"));
+        if ($this->request->is(["post", "put", "patch"])) {
+            $relatedTable->patchEntity($relatedEntity, $this->getRequest()->getData());
+            if ($relatedTable->save($relatedEntity)) {
+                $this->Flash->success(__d("ContentBlocks", "{0} was saved successfully.", [$relatedModel]));
+            } else {
+                $this->Flash->error(__d("ContentBlocks", "{0} could not be saved.", [$relatedModel]));
+            }
+        }
+
+        $this->set(compact("relatedEntity", "block", "id", "type"));
     }
 
     /**

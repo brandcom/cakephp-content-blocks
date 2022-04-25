@@ -7,6 +7,7 @@
 use Cake\ORM\Entity;
 use ContentBlocks\Model\Entity\Block;
 use ContentBlocks\View\AppView;
+use \Cake\Utility\Inflector;
 
 $entity_edit_url = [
     'plugin' => false,
@@ -73,8 +74,17 @@ $entity_edit_url = [
             <h3>
                 <?= $title ?>
             </h3>
-            <?php foreach ($contentBlock->{\Cake\Utility\Inflector::underscore($model)} as $entity): ?>
-                <?php debug($entity); ?>
+            <?php foreach ($contentBlock->{Inflector::underscore($model)} as $entity): ?>
+                <div>
+                    <?php debug($entity); ?>
+                    <?= $this->Html->link(__d("ContentBlocks", "Edit"), [
+                        'action' => 'editRelated',
+                        $contentBlock->id,
+                        $contentBlock->block->type,
+                        $model,
+                        $entity->id,
+                    ]) ?>
+                </div>
             <?php endforeach; ?>
             <?= $this->Html->link(__d("ContentBlocks", "Add new"), [
                 'plugin' => "ContentBlocks",
