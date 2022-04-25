@@ -127,7 +127,7 @@ class Block extends Entity
      * Input fields will be rendered in the admin form.
      *
      * E.g. [
-     *      SlideshowImage::class => __("Slideshow Images"),
+     *      "SlideshowImages" => __("Slideshow Images"),
      *      ...
      * ]
      *

@@ -70,6 +70,20 @@ $entity_edit_url = [
             <?= __d("ContentBlocks", "Related Models") ?>
         </h2>
         <?php foreach ($contentBlock->getManagedModels() as $model => $title): ?>
+            <h3>
+                <?= $title ?>
+            </h3>
+            <?php foreach ($contentBlock->{\Cake\Utility\Inflector::underscore($model)} as $entity): ?>
+                <?php debug($entity); ?>
+            <?php endforeach; ?>
+            <?= $this->Html->link(__d("ContentBlocks", "Add new"), [
+                'plugin' => "ContentBlocks",
+                'controller' => "Blocks",
+                'action' => "addRelated",
+                $contentBlock->id,
+                $contentBlock->block->type,
+                $model,
+            ]) ?>
         <?php endforeach; ?>
     </div>
 <?php endif; ?>

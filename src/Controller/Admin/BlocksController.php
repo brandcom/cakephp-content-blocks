@@ -2,6 +2,7 @@
 namespace ContentBlocks\Controller\Admin;
 
 use Cake\ORM\Table;
+use Cake\Utility\Inflector;
 use ContentBlocks\Controller\AppController;
 use ContentBlocks\Model\Entity\Block;
 use ContentBlocks\Model\Table\BlocksTable;
@@ -75,7 +76,7 @@ class BlocksController extends AppController
         if (!empty($contentBlock->getManagedModels())) {
             $associated = array_map(
                 function ($model) {
-                    return \Cake\Utility\Inflector::pluralize((new \ReflectionClass($model))->getShortName());
+                    return \Cake\Utility\Inflector::pluralize($model);
                 },
                 array_keys($contentBlock->getManagedModels())
             );
@@ -108,22 +109,30 @@ class BlocksController extends AppController
         $this->set(compact('contentBlock'));
     }
 
-    public function editRelation($id, $type, $relatedModel)
+    public function addRelated($id, $type, $relatedModel)
     {
-
-        $this->request->allowMethod(['post', 'delete']);
-
-        $this->loadModel($type);
+        $block_id_field = Inflector::underscore(rtrim($type, "s") . 'Id');
+        $this->loadModel($relatedModel);
         /**
-         * @var Table $blockTable
+         * @var Table $relatedTable
          */
-        $blockTable = $this->{$type};
+        $relatedTable = $this->{$relatedModel};
 
-        $block = $blockTable->get($id, [
-            'contain' => [
-                'Blocks',
-            ]
-        ]);
+        $entity = $relatedTable->newEntity();
+        $entity->{$block_id_field} = $id;
+
+        if ($relatedTable->save($entity)) {
+            return $this->redirect(['action' => 'editRelated', $id, $type, $relatedModel, $entity->id]);
+        }
+
+        return $this->redirect($this->referer());
+    }
+
+    public function editRelated($id, $type, $relatedModel, $relatedId)
+    {
+        debug($relatedModel);
+        debug($relatedId);
+        die();
     }
 
     /**
