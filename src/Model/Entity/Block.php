@@ -112,6 +112,12 @@ class Block extends Entity
             : Inflector::singularize($this->type);
         $reflectionClass = new \ReflectionClass("App\\Model\\Entity\\" . $className);
 
-        return $reflectionClass->newInstance()->getTitle();
+        $method = new \ReflectionMethod($reflectionClass->getName(), "getTitle");
+        if ($method->class !== Block::class) {
+
+            return $reflectionClass->newInstance()->getTitle();
+        }
+
+        return Inflector::humanize(Inflector::underscore($reflectionClass->getShortName()));
     }
 }
