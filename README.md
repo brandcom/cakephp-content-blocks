@@ -36,7 +36,7 @@ Let's create a simple TextContentBlock with a `title` and a `content` field.
 2. Then, run the `bin/cake bake model text_content_blocks` command. You won't need any templates or controllers.
 3. Edit the baked `TextContentBlock.php` file and make the class extend `ContentBlocks\Model\Entity\Block` instead of `Entity`.
 
-4. Modify your `TextContentBlocksTable.php`:
+4. Modify your `TextContentBlocksTable.php` so that your `TextContentBlocksTable` extends `ContentBlocks\Model\Entity\BlocksTable`, and modify the class as follows:
 
 Set the relation: 
 ```
@@ -167,6 +167,28 @@ public function beforeFind(Event $event, Query $query): Query
     ]);
 }
 ```
+
+### 7. Edit related models
+
+The plugin supports an admin interface even for related models. 
+
+#### HasMany relations
+
+Say you have a  `SliderContentBlock` with several slides. This means, you will have e.g. a `SliderBlockSlide` entity and 
+a `SliderBlockSlidesTable`. 
+
+1. Let your Slide entity use the `ContentBlocks\Model\Entity\Traits\BelongsToBlockTrait`
+2. Contain the Slide as shown in **6. Containing associated Models** 
+3. In your `SliderContentBlock`, override the `Block`'s method `getManagedModels()`. This should return an array of all related models which shall be editable in the admin form.
+
+```
+public function getManagedModels(): array
+{
+    return ["SliderBlockSlide"];
+}
+```
+
+4. To customize the appearance in the admin form, you can override the methods from the `BelongsToBlockTrait`, e.g. to define a nicer title or control what fields are available for editing (similarly as in **5. Modifying the Admin interface**). 
 
 ## Contribution
 

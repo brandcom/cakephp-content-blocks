@@ -94,11 +94,6 @@ class Block extends Entity
         return $view->element("content_blocks/" . $template_name, ['block' => $this]);
     }
 
-    public function getSetVariables(): array
-    {
-        return [];
-    }
-
     /**
      * Get a human-readable Title for the Admin area
      *
