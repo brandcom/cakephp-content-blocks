@@ -6,14 +6,12 @@
  */
 ?>
 <div class="content-blocks-admin">
-    <p class="content-blocks-admin__entity-info">
-        <small>
-            <?= __d("ContentBlocks", "Area for {0} #{1}", [
-                h($area->owner_model),
-                h($area->owner_id),
-            ]) ?>
-        </small>
-    </p>
+    <h2>
+        <?= __d("ContentBlocks", "Content Blocks for {0} #{1}", [
+            h(\Cake\Utility\Inflector::singularize($area->owner_model)),
+            h($area->owner_id),
+        ]) ?>
+    </h2>
     <table>
         <thead>
         <tr>
@@ -21,7 +19,7 @@
                 <?= __d("ContentBlocks", "Sort") ?>
             </th>
             <th>
-                <?= __d("ContentBlocks", "Block Type") ?>
+                <?= __d("ContentBlocks", "Block Description") ?>
             </th>
             <th>
                 <?= __("Actions") ?>
@@ -52,29 +50,37 @@
         <tfoot>
         <tr>
             <td colspan="3">
-                <p>
-                    <?= __d("ContentBlocks", "Add new block") ?>
-                </p>
-                <div>
-                    <?php foreach ($availableBlocks as $block): ?>
-                        <?php
-                        /**
-                         * @var \ContentBlocks\Model\Entity\Block $block
-                         */
-                        ?>
-                        <?= $this->Form->postButton($block->getTitle(), [
-                            'prefix' => "admin",
-                            'plugin' => "ContentBlocks",
-                            'controller' => "Blocks",
-                            'action' => "add",
-                        ], [
-                            'data' => [
-                                'area_id' => $area->id,
-                                'type' => $block->getSource(),
-                            ]
-                        ]) ?>
-                    <?php endforeach; ?>
-                </div>
+                <h3>
+                    <?= __d("ContentBlocks", "Add a new block") ?>
+                </h3>
+                <?php if (empty($availableBlocks)): ?>
+                    <p>
+                        <?= __d("ContentBlocks", "There are no blocks available yet.") ?>
+                    </p>
+                <?php else: ?>
+                    <ul>
+                        <?php foreach ($availableBlocks as $block): ?>
+                            <?php
+                            /**
+                             * @var \ContentBlocks\Model\Entity\Block $block
+                             */
+                            ?>
+                            <li>
+                                <?= $this->Form->postLink($block->getTitle(), [
+                                    'prefix' => "admin",
+                                    'plugin' => "ContentBlocks",
+                                    'controller' => "Blocks",
+                                    'action' => "add",
+                                ], [
+                                    'data' => [
+                                        'area_id' => $area->id,
+                                        'type' => $block->getSource(),
+                                    ]
+                                ]) ?>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                <?php endif; ?>
             </td>
         </tr>
         </tfoot>

@@ -126,7 +126,7 @@ class Block extends Entity
      */
     public function getDescription(): string
     {
-        return $this->title ?: $this->getTitle();
+        return $this->title ? $this->getTitle() . ': ' . $this->title : $this->getTitle();
     }
 
     /**
