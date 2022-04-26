@@ -190,6 +190,31 @@ public function getManagedModels(): array
 
 4. To customize the appearance in the admin form, you can override the methods from the `BelongsToBlockTrait`, e.g. to define a nicer title or control what fields are available for editing (similarly as in **5. Modifying the Admin interface**). 
 
+### 8. Pass custom data to the block template
+
+By default, the containing model of the block area is passed to the template as `$owner`, 
+so, e.g., if you have an `Article` entity which has a `TextContentBlock`, your article entity will be accessible 
+in the `text.ctp` as `$owner`. 
+
+You can override this - and add more view variables - by overriding the `getViewVariables()` method in your `*ContentBlocksTable`.
+
+If you want to rename `$owner` and add more data, you can do that like so:  
+
+```
+public function getViewVariables($entity): array
+{
+    $vars = parent::getViewVariables($entity);
+
+    return [
+        'article' => $owner,
+        'random' => "This is just a string",
+        'someOtherVariable' => $this->getSomeOtherVariable($entity),
+    ];
+}
+```
+
+`$entity`, the instance of your `*ContentBlock`, will be passed to the method.
+
 ## Contribution
 
 You can contribute to this project via pull requests or issues. 
