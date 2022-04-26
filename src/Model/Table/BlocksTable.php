@@ -1,11 +1,14 @@
 <?php
 namespace ContentBlocks\Model\Table;
 
+use Cake\Datasource\EntityInterface;
 use Cake\Event\Event;
+use Cake\ORM\Entity;
+use Cake\ORM\Locator\LocatorAwareTrait;
 use Cake\ORM\Query;
-use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use ContentBlocks\Model\Entity\Block;
 
 /**
  * Blocks Model
@@ -25,6 +28,8 @@ use Cake\Validation\Validator;
  */
 class BlocksTable extends Table
 {
+    use LocatorAwareTrait;
+
     /**
      * Initialize method
      *
@@ -77,5 +82,50 @@ class BlocksTable extends Table
     public function beforeFind(Event $event, Query $query): Query
     {
         return $query->orderAsc("sort");
+    }
+
+    /**
+     * Return a relational array of variables that should be
+     * available in the block template/element.
+     *
+     * E.g., [
+     *      'article' => $article,
+     *      'currentWeather' => $currentWeather,
+     * ]
+     *
+     * @param Entity|EntityInterface $entity
+     * @return array
+     */
+    public function getViewVariables($entity): array
+    {
+        $owner = $this->getOwner($entity->get("id"));
+        return [
+            "owner" => $owner,
+        ];
+    }
+
+    /**
+     * Retrieves the owner entity of the block's area.
+     *
+     * @param $block_id
+     * @return EntityInterface
+     * @throws \ReflectionException
+     */
+    public function getOwner($block_id): EntityInterface
+    {
+        $block = $this->get($block_id, [
+            'contain' => [
+                'Areas',
+            ],
+        ]);
+
+        /**
+         * @var Table $tableInstance
+         * @var Table $ownerTable
+         */
+        $tableInstance = (new \ReflectionClass($block->area->owner_model))->newInstance();
+        $ownerTable = $this->getTableLocator()->get($tableInstance->getAlias());
+
+        return $ownerTable->get($block->area->owner_id);
     }
 }

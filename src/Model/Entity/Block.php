@@ -83,7 +83,7 @@ class Block extends Entity
         return [];
     }
 
-    public function render(): string
+    public function render(array $viewVariables): string
     {
         $me = new \ReflectionClass(get_class($this));
         $template_name = str_replace('app\\model\\entity\\', '', Inflector::underscore($me->getName()));

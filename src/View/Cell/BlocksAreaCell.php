@@ -49,7 +49,7 @@ class BlocksAreaCell extends Cell
     {
         $this->loadModel($block->type);
         /**
-         * @var Table $table
+         * @var BlocksTable $table
          * @var Block $contentBlock
          */
         $table = $this->{$block->type};
@@ -60,6 +60,8 @@ class BlocksAreaCell extends Cell
             ->contain(['Blocks'])
             ->first();
 
-        $this->set(compact('contentBlock'));
+        $viewVariables = $table->getViewVariables($contentBlock);
+
+        $this->set(compact('contentBlock', 'viewVariables'));
     }
 }
