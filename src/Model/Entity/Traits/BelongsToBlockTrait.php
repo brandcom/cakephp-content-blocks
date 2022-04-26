@@ -2,6 +2,8 @@
 
 namespace ContentBlocks\Model\Entity\Traits;
 
+use Cake\Utility\Inflector;
+
 /**
  * Trait for Entities that belong to a ContentBlock
  */
@@ -49,5 +51,27 @@ trait BelongsToBlockTrait
     public function getFormOptions(): array
     {
         return [];
+    }
+
+    /**
+     * Human-readable title for the block type
+     *
+     * @return string
+     */
+    public function getTitle(): string
+    {
+        return Inflector::humanize(Inflector::underscore((new \ReflectionClass($this))->getShortName()));
+    }
+
+    /**
+     * Description of a block's instance
+     *
+     * Returns the title field from the database by default.
+     *
+     * @return string|null
+     */
+    public function getDescription(): ?string
+    {
+        return $this->get("title") ?: $this->getTitle();
     }
 }

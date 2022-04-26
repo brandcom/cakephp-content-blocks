@@ -78,7 +78,7 @@ class BlocksController extends AppController
                 function ($model) {
                     return \Cake\Utility\Inflector::pluralize($model);
                 },
-                array_keys($contentBlock->getManagedModels())
+                $contentBlock->getManagedModels()
             );
 
             $contained = array_merge($contained, $associated);
