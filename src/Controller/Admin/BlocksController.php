@@ -109,6 +109,38 @@ class BlocksController extends AppController
         $this->set(compact('contentBlock'));
     }
 
+    /**
+     * Delete method
+     *
+     * @param string|null $id Content Blocks Block id.
+     * @return \Cake\Http\Response|null Redirects to index.
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function delete($id, $type)
+    {
+        $this->request->allowMethod(['post', 'delete']);
+
+        $this->loadModel($type);
+        /**
+         * @var Table $blockTable
+         */
+        $blockTable = $this->{$type};
+
+        $block = $blockTable->get($id, [
+            'contain' => [
+                'Blocks',
+            ]
+        ]);
+
+        if ($this->Blocks->delete($block->block) && $blockTable->delete($block)) {
+            $this->Flash->success(__('The content blocks block has been deleted.'));
+        } else {
+            $this->Flash->error(__('The content blocks block could not be deleted. Please, try again.'));
+        }
+
+        return $this->redirect($this->getRequest()->getData('redirect'));
+    }
+
     public function addRelated($id, $type, $relatedModel)
     {
         $block_id_field = Inflector::underscore(rtrim($type, "s") . 'Id');
@@ -153,35 +185,23 @@ class BlocksController extends AppController
         $this->set(compact("relatedEntity", "block", "id", "type"));
     }
 
-    /**
-     * Delete method
-     *
-     * @param string|null $id Content Blocks Block id.
-     * @return \Cake\Http\Response|null Redirects to index.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function delete($id, $type)
+    public function deleteRelated($relatedId, $relatedModel)
     {
         $this->request->allowMethod(['post', 'delete']);
 
-        $this->loadModel($type);
-        /**
-         * @var Table $blockTable
-         */
-        $blockTable = $this->{$type};
+        $this->loadModel($relatedModel);
+        $relatedTable = $this->{$relatedModel};
+        $relatedEntity = $relatedTable->get($relatedId);
 
-        $block = $blockTable->get($id, [
-            'contain' => [
-                'Blocks',
-            ]
-        ]);
-
-        if ($this->Blocks->delete($block->block) && $blockTable->delete($block)) {
-            $this->Flash->success(__('The content blocks block has been deleted.'));
-        } else {
-            $this->Flash->error(__('The content blocks block could not be deleted. Please, try again.'));
+        if ($relatedTable->delete($relatedEntity)) {
+            $this->Flash->success(__d("ContentBlocks", "The {0} has been deleted.", [
+                $relatedEntity->getTitle(),
+            ]));
+            return $this->redirect($this->getRequest()->getData("redirect"));
         }
 
-        return $this->redirect($this->getRequest()->getData('redirect'));
+        $this->Flash->error(__d("ContentBlocks", "Could not delete {0}", [
+            $relatedEntity->getTitle(),
+        ]));
     }
 }

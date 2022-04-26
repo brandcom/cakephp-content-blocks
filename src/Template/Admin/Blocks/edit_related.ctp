@@ -15,8 +15,6 @@ $block_edit_url = [
 ];
 
 ?>
-
-
 <div class="actions">
     <h2>
         <?= __d("ContentBlocks", "Actions") ?>
@@ -25,13 +23,30 @@ $block_edit_url = [
         <li>
             <?= $this->Html->link(__d("ContentBlocks", "Go back"), $block_edit_url) ?>
         </li>
+        <li>
+            <?= $this->Form->postLink(__d("ContentBlocks", "Delete {0}", [$relatedEntity->getTitle()]), [
+                'plugin' => "ContentBlocks",
+                'controller' => "Blocks",
+                'action' => "deleteRelated",
+                $relatedEntity->id,
+                $relatedEntity->getSource(),
+            ], [
+                'data' => [
+                    'redirect' => \Cake\Routing\Router::url($block_edit_url),
+                ],
+                'confirm' => __d("ContentBlocks", "Do you want to delete {0} #{1}?", [
+                    $relatedEntity->getTitle(),
+                    $relatedEntity->get("id"),
+                ])
+            ]) ?>
+        </li>
     </ul>
 </div>
 <?= $this->Form->create($relatedEntity, $relatedEntity->getFormOptions()) ?>
 <fieldset>
     <legend>
         <?= __d("ContentBlocks", "Edit {0}", [
-            Inflector::humanize(Inflector::underscore((new ReflectionClass(get_class($relatedEntity)))->getShortName()))
+            $relatedEntity->getTitle()
         ]) ?>
     </legend>
     <?php foreach ($relatedEntity->getFields() as $field => $options): ?>

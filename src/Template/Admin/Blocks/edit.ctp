@@ -124,7 +124,7 @@ $entity_edit_url = [
                 <?php endforeach; ?>
                 </tbody>
             </table>
-            <?= $this->Html->link(__d("ContentBlocks", "Add new"), [
+            <?= $this->Form->postButton(__d("ContentBlocks", "Add new"), [
                 'plugin' => "ContentBlocks",
                 'controller' => "Blocks",
                 'action' => "addRelated",
