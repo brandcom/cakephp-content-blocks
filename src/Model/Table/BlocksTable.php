@@ -1,6 +1,7 @@
 <?php
 namespace ContentBlocks\Model\Table;
 
+use App\Model\Table\StoresTable;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\Event;
 use Cake\ORM\Entity;
@@ -98,7 +99,7 @@ class BlocksTable extends Table
      */
     public function getViewVariables($entity): array
     {
-        $owner = $this->getOwner($entity->get("id"));
+        $owner = $this->getOwner($entity);
         return [
             "owner" => $owner,
         ];
@@ -111,20 +112,28 @@ class BlocksTable extends Table
      * @return EntityInterface
      * @throws \ReflectionException
      */
-    public function getOwner($block_id): EntityInterface
+    public function getOwner(Block $block): EntityInterface
     {
-        $block = $this->get($block_id, [
+        $BlockTable = $this->getTableLocator()->get("ContentBlocks.Blocks");
+        if ($block->getSource() !== "ContentBlocks.Block") {
+            $block = $BlockTable->get($block->get("content_blocks_block_id"));
+        }
+
+
+        $block = $BlockTable->get($block->id, [
             'contain' => [
                 'Areas',
             ],
         ]);
 
         /**
-         * @var Table $tableInstance
+         * @var Entity $ownerEntity
          * @var Table $ownerTable
+         *
+         * FIXME
          */
-        $tableInstance = (new \ReflectionClass($block->area->owner_model))->newInstance();
-        $ownerTable = $this->getTableLocator()->get($tableInstance->getAlias());
+        //$ownerEntity = (new \ReflectionClass($block->area->owner_model))->newInstance();
+        //$ownerTable = $this->getTableLocator()->get($tableInstance->getAlias());
 
         return $ownerTable->get($block->area->owner_id);
     }

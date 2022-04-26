@@ -28,7 +28,7 @@ class BlocksController extends AppController
         $data = $this->getRequest()->getData();
         $block = $this->Blocks->newEntity();
         $block->content_blocks_area_id = $data['area_id'];
-        $block->type = $data['type'] . 'ContentBlocks';
+        $block->type = $data['type'];
 
         $block = $this->Blocks->saveOrFail($block);
         $this->loadModel($block->type);

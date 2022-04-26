@@ -74,7 +74,7 @@ class AreasTable extends Table
     public function findOrCreateForEntity(EntityInterface $entity): Area
     {
         $area = $this->findOrCreate([
-            'owner_model' => get_class($entity),
+            'owner_model' => $entity->getSource(),
             'owner_id' => $entity->id,
         ]);
 

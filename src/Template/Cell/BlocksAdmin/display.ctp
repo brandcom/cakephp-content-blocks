@@ -69,7 +69,7 @@
                         ], [
                             'data' => [
                                 'area_id' => $area->id,
-                                'type' => str_replace(["App\\Model\\Entity\\", "ContentBlock"], "", get_class($block)),
+                                'type' => $block->getSource(),
                             ]
                         ]) ?>
                     <?php endforeach; ?>

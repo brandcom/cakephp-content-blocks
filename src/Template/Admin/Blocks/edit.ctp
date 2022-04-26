@@ -11,8 +11,7 @@ use \Cake\Utility\Inflector;
 
 $entity_edit_url = [
     'plugin' => false,
-    'controller' => \Cake\Utility\Inflector::pluralize(str_replace("App\Model\Entity\\", '',
-        $contentBlock->block->area->owner_model)),
+    'controller' => $contentBlock->block->area->owner_model,
     'action' => "edit",
     $contentBlock->block->area->owner_id,
 ];
