@@ -90,8 +90,9 @@ class Block extends Entity
         $template_name = str_replace('_content_block', '', $template_name);
 
         $view = new AppView();
+        $viewVariables['block'] = $this;
 
-        return $view->element("content_blocks/" . $template_name, ['block' => $this]);
+        return $view->element("content_blocks/" . $template_name, $viewVariables);
     }
 
     /**

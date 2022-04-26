@@ -1,7 +1,6 @@
 <?php
 namespace ContentBlocks\Model\Table;
 
-use App\Model\Table\StoresTable;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\Event;
 use Cake\ORM\Entity;
@@ -94,7 +93,7 @@ class BlocksTable extends Table
      *      'currentWeather' => $currentWeather,
      * ]
      *
-     * @param Entity|EntityInterface $entity
+     * @param Block $entity
      * @return array
      */
     public function getViewVariables($entity): array
@@ -119,7 +118,6 @@ class BlocksTable extends Table
             $block = $BlockTable->get($block->get("content_blocks_block_id"));
         }
 
-
         $block = $BlockTable->get($block->id, [
             'contain' => [
                 'Areas',
@@ -127,14 +125,8 @@ class BlocksTable extends Table
         ]);
 
         /**
-         * @var Entity $ownerEntity
-         * @var Table $ownerTable
-         *
-         * FIXME
+         * @var Block $block
          */
-        //$ownerEntity = (new \ReflectionClass($block->area->owner_model))->newInstance();
-        //$ownerTable = $this->getTableLocator()->get($tableInstance->getAlias());
-
-        return $ownerTable->get($block->area->owner_id);
+        return $this->getTableLocator()->get($block->area->owner_model)->get($block->area->owner_id);
     }
 }
