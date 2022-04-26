@@ -2,7 +2,9 @@
 namespace ContentBlocks\View\Cell;
 
 use Cake\Datasource\EntityInterface;
+use Cake\Filesystem\Folder;
 use Cake\Routing\Router;
+use Cake\Utility\Inflector;
 use Cake\View\Cell;
 use ContentBlocks\Model\Table\AreasTable;
 
@@ -40,6 +42,38 @@ class BlocksAdminCell extends Cell
     {
         $area = $this->Areas->findOrCreateForEntity($entity);
 
-        $this->set(compact('area'));
+        $availableBlocks = $this->getAvailableBlocks();
+
+        $this->set(compact('area', 'availableBlocks'));
+    }
+
+    private function getAvailableBlocks(): array
+    {
+        $entities = new Folder(ROOT . DS . 'src' . DS . 'Model' . DS . 'Entity' . DS);
+        $blocks = $entities->find(".*\ContentBlock.php");
+
+        $blocks = array_map(
+            function ($block) {
+
+                try {
+                    $reflectionClass = new \ReflectionClass("App\\Model\\Entity\\" . str_replace('.php', '', $block));
+                    $blockTable = $this->loadModel(Inflector::pluralize($reflectionClass->getShortName()));
+                    $blockEntity = $blockTable->newEntity();
+
+                    return $blockEntity;
+
+                } catch (\Exception $e) {
+                    return null;
+                }
+            },
+            $blocks
+        );
+
+        return array_filter(
+            $blocks,
+            function ($block) {
+                return (bool)$block;
+            }
+        );
     }
 }

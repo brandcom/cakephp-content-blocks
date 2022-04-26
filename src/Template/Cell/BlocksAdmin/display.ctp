@@ -2,6 +2,7 @@
 /**
  * @var \ContentBlocks\Model\Entity\Area $area
  * @var \ContentBlocks\View\AppView $this
+ * @var array $availableBlocks
  */
 ?>
 <div class="content-blocks-admin">
@@ -55,7 +56,7 @@
                     <?= __d("ContentBlocks", "Add new block") ?>
                 </p>
                 <div>
-                    <?php foreach ($this->ContentBlocksAdmin->getBlockList() as $block): ?>
+                    <?php foreach ($availableBlocks as $block): ?>
                         <?php
                         /**
                          * @var \ContentBlocks\Model\Entity\Block $block
