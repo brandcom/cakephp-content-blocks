@@ -40,6 +40,7 @@ class BlocksTable extends Table
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
+        $this->addBehavior('ContentBlocks.SortableEntities');
 
         $this->belongsTo('Areas', [
             'foreignKey' => 'content_blocks_area_id',
