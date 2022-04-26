@@ -35,7 +35,7 @@
                     <?= $this->Number->format($block->sort) ?>
                 </td>
                 <td>
-                    <?= $block->getTitle() ?>
+                    <?= $block->custom_block->getDescription() ?>
                 </td>
                 <td>
                     <?= $this->Html->link(__("Edit"), [

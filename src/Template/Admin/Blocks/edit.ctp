@@ -7,7 +7,6 @@
 use Cake\ORM\Entity;
 use ContentBlocks\Model\Entity\Block;
 use ContentBlocks\View\AppView;
-use \Cake\Utility\Inflector;
 
 $entity_edit_url = [
     'plugin' => false,
@@ -48,6 +47,7 @@ $entity_edit_url = [
             $contentBlock->getTitle(),
         ]) ?>
     </legend>
+    <?= empty($contentBlock->getFields()) ? __d("ContentBlocks", "This Block does not have any editable fields.") : null ?>
     <?php foreach ($contentBlock->getFields() as $field => $options): ?>
         <?= !empty($options['beforeControl']) ? $options['beforeControl'] : null ?>
         <?= $this->Form->control($field, $options) ?>

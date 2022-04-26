@@ -3,6 +3,7 @@ namespace ContentBlocks\Model\Table;
 
 use Cake\Datasource\EntityInterface;
 use Cake\ORM\Entity;
+use Cake\ORM\Locator\LocatorAwareTrait;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -28,6 +29,8 @@ use ContentBlocks\Model\Entity\Area;
  */
 class AreasTable extends Table
 {
+    use LocatorAwareTrait;
+
     /**
      * Initialize method
      *
@@ -78,10 +81,20 @@ class AreasTable extends Table
             'owner_id' => $entity->id,
         ]);
 
-        return $this->get($area->id, [
+        $area = $this->get($area->id, [
             'contain' => [
                 'Blocks',
             ],
         ]);
+
+        $area->blocks = array_map(
+            function ($block) {
+                $block->custom_block = $this->getTableLocator()->get($block->type)->find()->where(['content_blocks_block_id' => $block->id])->first();
+                return $block;
+            },
+            $area->blocks
+        );
+
+        return $area;
     }
 }

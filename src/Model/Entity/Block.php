@@ -118,6 +118,18 @@ class Block extends Entity
     }
 
     /**
+     * Other than getTitle, the description describes an instance,
+     * not the block as the class.
+     *
+     * @return string
+     * @throws \ReflectionException
+     */
+    public function getDescription(): string
+    {
+        return $this->title ?: $this->getTitle();
+    }
+
+    /**
      * Return a relational array of Models the Block has a relationship with.
      *
      * Input fields will be rendered in the admin form.
