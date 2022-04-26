@@ -206,7 +206,7 @@ public function getViewVariables($entity): array
     $vars = parent::getViewVariables($entity);
 
     return [
-        'article' => $owner,
+        'article' => $vars['owner'],
         'random' => "This is just a string",
         'someOtherVariable' => $this->getSomeOtherVariable($entity),
     ];
