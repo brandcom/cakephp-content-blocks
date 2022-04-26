@@ -3,7 +3,6 @@ namespace ContentBlocks\Model\Table;
 
 use Cake\Datasource\EntityInterface;
 use Cake\Event\Event;
-use Cake\ORM\Entity;
 use Cake\ORM\Locator\LocatorAwareTrait;
 use Cake\ORM\Query;
 use Cake\ORM\Table;
@@ -81,7 +80,11 @@ class BlocksTable extends Table
 
     public function beforeFind(Event $event, Query $query): Query
     {
-        return $query->orderAsc("sort");
+        if ($this->getAlias() === "Blocks") {
+            return $query->orderAsc("sort");
+        }
+
+        return $query;
     }
 
     /**
