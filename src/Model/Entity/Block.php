@@ -86,9 +86,7 @@ class Block extends Entity
 
     public function render(array $viewVariables): string
     {
-        $me = new \ReflectionClass(get_class($this));
-        $template_name = str_replace('app\\model\\entity\\', '', Inflector::underscore($me->getName()));
-        $template_name = str_replace('_content_block', '', $template_name);
+        $template_name = Inflector::underscore(str_replace("ContentBlocks", '', $this->getSource()));
 
         $view = new AppView();
         $viewVariables['block'] = $this;
