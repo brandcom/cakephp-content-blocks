@@ -61,10 +61,15 @@ class BlocksAdminCell extends Cell
                     $blockTable = $this->loadModel(Inflector::pluralize($reflectionClass->getShortName()));
                     $blockEntity = $blockTable->newEntity();
 
+
                     /**
                      * @var Block $blockEntity
                      */
-                    return $blockEntity && $blockEntity->canBeOnEntity($entity);
+                    if ($blockEntity->canBeOnEntity($entity)) {
+                        return $blockEntity;
+                    }
+
+                    return false;
 
                 } catch (\Exception $e) {
 
