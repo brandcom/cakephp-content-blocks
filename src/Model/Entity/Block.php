@@ -2,6 +2,7 @@
 namespace ContentBlocks\Model\Entity;
 
 use App\View\AppView;
+use Cake\Datasource\EntityInterface;
 use Cake\ORM\Entity;
 use Cake\Utility\Inflector;
 
@@ -144,5 +145,51 @@ class Block extends Entity
     public function getManagedModels(): array
     {
         return [];
+    }
+
+    /**
+     * Array of Entities that are allowed to have this block.
+     *
+     * E.g., to only allow a TextContentBlock on an Article:
+     * return [
+     *      "Article",
+     * ];
+     *
+     * An Empty array means that all Entities can have this block.
+     */
+    public function getAllowedEntities(): array
+    {
+        return [];
+    }
+
+    /**
+     * Array of Entities that are not allowed to have this block.
+     *
+     * E.g. [
+     *      "Article",
+     *      "User",
+     * ]
+     */
+    public function getDisallowedEntities(): array
+    {
+        return [];
+    }
+
+    /**
+     * Check if a block can be on an Entity
+     *
+     * @param EntityInterface $entity
+     * @return bool
+     */
+    public function canBeOnEntity(EntityInterface $entity): bool
+    {
+        $modelName = Inflector::singularize($entity->getSource());
+
+        if (in_array($modelName, $this->getDisallowedEntities())) {
+
+            return false;
+        }
+
+        return empty($this->getAllowedEntities()) || in_array($modelName, $this->getAllowedEntities());
     }
 }

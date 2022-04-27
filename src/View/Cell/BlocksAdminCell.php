@@ -6,6 +6,7 @@ use Cake\Filesystem\Folder;
 use Cake\Routing\Router;
 use Cake\Utility\Inflector;
 use Cake\View\Cell;
+use ContentBlocks\Model\Entity\Block;
 use ContentBlocks\Model\Table\AreasTable;
 
 /**
@@ -42,31 +43,35 @@ class BlocksAdminCell extends Cell
     {
         $area = $this->Areas->findOrCreateForEntity($entity);
 
-        $availableBlocks = $this->getAvailableBlocks();
+        $availableBlocks = $this->getAvailableBlocks($entity);
 
         $this->set(compact('area', 'availableBlocks'));
     }
 
-    private function getAvailableBlocks(): array
+    private function getAvailableBlocks(EntityInterface $entity): array
     {
-        $entities = new Folder(ROOT . DS . 'src' . DS . 'Model' . DS . 'Entity' . DS);
-        $blocks = $entities->find(".*\ContentBlock.php");
+        $entitiesDir = new Folder(ROOT . DS . 'src' . DS . 'Model' . DS . 'Entity' . DS);
+        $blockFiles = $entitiesDir->find(".*\ContentBlock.php");
 
         $blocks = array_map(
-            function ($block) {
+            function ($block) use ($entity) {
 
                 try {
                     $reflectionClass = new \ReflectionClass("App\\Model\\Entity\\" . str_replace('.php', '', $block));
                     $blockTable = $this->loadModel(Inflector::pluralize($reflectionClass->getShortName()));
                     $blockEntity = $blockTable->newEntity();
 
-                    return $blockEntity;
+                    /**
+                     * @var Block $blockEntity
+                     */
+                    return $blockEntity && $blockEntity->canBeOnEntity($entity);
 
                 } catch (\Exception $e) {
-                    return null;
+
+                    return false;
                 }
             },
-            $blocks
+            $blockFiles
         );
 
         return array_filter(
