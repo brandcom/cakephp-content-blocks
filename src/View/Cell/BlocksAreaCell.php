@@ -38,14 +38,14 @@ class BlocksAreaCell extends Cell
      *
      * @return void
      */
-    public function display(EntityInterface $entity)
+    public function display(EntityInterface $entity, array $viewVariables=[])
     {
         $area = $this->Areas->findOrCreateForEntity($entity);
 
-        $this->set(compact('area'));
+        $this->set(compact('area', 'viewVariables'));
     }
 
-    public function renderBlock(Block $block)
+    public function renderBlock(Block $block, array $viewVariables)
     {
         $this->loadModel($block->type);
         /**
@@ -60,7 +60,10 @@ class BlocksAreaCell extends Cell
             ->contain(['Blocks'])
             ->first();
 
-        $viewVariables = $table->getViewVariables($contentBlock);
+        $viewVariables = array_merge(
+            $table->getViewVariables($contentBlock),
+            $viewVariables,
+        );
 
         $this->set(compact('contentBlock', 'viewVariables'));
     }
