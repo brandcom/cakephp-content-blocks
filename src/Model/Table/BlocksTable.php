@@ -108,6 +108,20 @@ class BlocksTable extends Table
     }
 
     /**
+     * Pass Variables to the Admin edit template.
+     *
+     * Similar to BlocksTable::getViewVariables()
+     *
+     * @param $entity
+     * @return EntityInterface[]
+     * @throws \ReflectionException
+     */
+    public function getAdminViewVariables($entity): array
+    {
+        return [];
+    }
+
+    /**
      * Retrieves the owner entity of the block's area.
      *
      * @param $block_id

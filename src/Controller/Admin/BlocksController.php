@@ -106,7 +106,11 @@ class BlocksController extends AppController
                 'The content blocks block could not be saved. Please, try again.'));
         }
 
+        $adminViewVariables = $this->{$block->type}
+            ->getAdminViewVariables($contentBlock);
+
         $this->set(compact('contentBlock'));
+        $this->set($adminViewVariables);
     }
 
     /**
