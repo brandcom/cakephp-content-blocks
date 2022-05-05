@@ -49,7 +49,7 @@
                         'action' => 'edit',
                         $block->id,
                     ]) ?>
-                    <?= $block->is_published && $block->getViewRoute() ? $this->Html->link(__("View"), $block->getViewRoute()) : null ?>
+                    <?= $block->is_published && $block->getViewRoute() ? $this->Html->link(__("View"), $block->getViewRoute(), ['target' => "_blank"]) : null ?>
                 </td>
             </tr>
         <?php endforeach; ?>
