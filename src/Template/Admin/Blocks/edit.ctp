@@ -7,12 +7,22 @@
 use Cake\ORM\Entity;
 use ContentBlocks\Model\Entity\Block;
 use ContentBlocks\View\AppView;
+use Cake\Routing\Router;
 
 $entity_edit_url = [
     'plugin' => false,
     'controller' => $contentBlock->block->area->owner_model,
     'action' => "edit",
     $contentBlock->block->area->owner_id,
+];
+
+$block_anchor_route = [
+    'prefix' => false,
+    'plugin' => false,
+    'controller' => $contentBlock->block->area->owner_model,
+    'action' => 'view',
+    $contentBlock->block->area->owner_id,
+    '#' => $contentBlock->block->html_anchor ?: "content-block-" . $contentBlock->block->id,
 ];
 
 ?>
@@ -67,6 +77,12 @@ $entity_edit_url = [
     <?= $this->Form->control('block.html_anchor', [
         'label' => __d("ContentBlocks", "HTML Anchor"),
     ]) ?>
+    <p>
+        <?= Router::routeExists($block_anchor_route) ? $this->Html->link("&rarr; zum Block", $block_anchor_route, [
+            'escapeTitle' => false,
+            'target' => "_blank",
+        ]) : __d("ContentBlocks", "Error: Missing route for Block") ?>
+    </p>
 </fieldset>
 <?= $this->Form->submit() ?>
 <?= $this->Form->end() ?>
