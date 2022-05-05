@@ -1,0 +1,152 @@
+# LANGUAGE translation of CakePHP Application
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2022-05-05 14:01+0200\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: /Users/pascalschneider/Sites/flavourdistrict.test//Controller/Admin/BlocksController.php:66
+msgid "The content blocks block has been saved."
+msgstr ""
+
+#: /Users/pascalschneider/Sites/flavourdistrict.test//Controller/Admin/BlocksController.php:70
+msgid "The content blocks block could not be saved. Please, try again."
+msgstr ""
+
+#: /Users/pascalschneider/Sites/flavourdistrict.test//Controller/Admin/BlocksController.php:105
+msgid "The content blocks block has been deleted."
+msgstr ""
+
+#: /Users/pascalschneider/Sites/flavourdistrict.test//Controller/Admin/BlocksController.php:107
+msgid "The content blocks block could not be deleted. Please, try again."
+msgstr ""
+
+#: /Users/pascalschneider/Sites/flavourdistrict.test//Controller/Admin/BlocksController.php:148
+msgid "{0} was saved successfully."
+msgstr ""
+
+#: /Users/pascalschneider/Sites/flavourdistrict.test//Controller/Admin/BlocksController.php:150
+msgid "{0} could not be saved."
+msgstr ""
+
+#: /Users/pascalschneider/Sites/flavourdistrict.test//Controller/Admin/BlocksController.php:166
+msgid "The {0} has been deleted."
+msgstr ""
+
+#: /Users/pascalschneider/Sites/flavourdistrict.test//Controller/Admin/BlocksController.php:172
+msgid "Could not delete {0}"
+msgstr ""
+
+#: /Users/pascalschneider/Sites/flavourdistrict.test//Template/Admin/Blocks/edit.ctp:22
+#: /Users/pascalschneider/Sites/flavourdistrict.test//Template/Admin/Blocks/edit_related.ctp:20
+#: /Users/pascalschneider/Sites/flavourdistrict.test//Template/Element/Admin/Blocks/edit/related_models_loop.ctp:37
+msgid "Actions"
+msgstr ""
+
+#: /Users/pascalschneider/Sites/flavourdistrict.test//Template/Admin/Blocks/edit.ctp:26
+#: /Users/pascalschneider/Sites/flavourdistrict.test//Template/Admin/Blocks/edit_related.ctp:24
+msgid "Go back"
+msgstr ""
+
+#: /Users/pascalschneider/Sites/flavourdistrict.test//Template/Admin/Blocks/edit.ctp:29
+msgid "Delete Block"
+msgstr ""
+
+#: /Users/pascalschneider/Sites/flavourdistrict.test//Template/Admin/Blocks/edit.ctp:36
+msgid "Do you really want to delete Block #{0}?"
+msgstr ""
+
+#: /Users/pascalschneider/Sites/flavourdistrict.test//Template/Admin/Blocks/edit.ctp:47
+msgid "Fields for {0}"
+msgstr ""
+
+#: /Users/pascalschneider/Sites/flavourdistrict.test//Template/Admin/Blocks/edit.ctp:51
+msgid "This Block does not have any editable fields."
+msgstr ""
+
+#: /Users/pascalschneider/Sites/flavourdistrict.test//Template/Admin/Blocks/edit.ctp:60
+msgid "General Settings"
+msgstr ""
+
+#: /Users/pascalschneider/Sites/flavourdistrict.test//Template/Admin/Blocks/edit.ctp:63
+msgid "Sort Order"
+msgstr ""
+
+#: /Users/pascalschneider/Sites/flavourdistrict.test//Template/Admin/Blocks/edit.ctp:66
+msgid "Is Published?"
+msgstr ""
+
+#: /Users/pascalschneider/Sites/flavourdistrict.test//Template/Admin/Blocks/edit.ctp:69
+msgid "HTML Anchor"
+msgstr ""
+
+#: /Users/pascalschneider/Sites/flavourdistrict.test//Template/Admin/Blocks/edit.ctp:75
+msgid "Error: Missing route for Block"
+msgstr ""
+
+#: /Users/pascalschneider/Sites/flavourdistrict.test//Template/Admin/Blocks/edit_related.ctp:27
+msgid "Delete {0}"
+msgstr ""
+
+#: /Users/pascalschneider/Sites/flavourdistrict.test//Template/Admin/Blocks/edit_related.ctp:37
+msgid "Do you want to delete {0} #{1}?"
+msgstr ""
+
+#: /Users/pascalschneider/Sites/flavourdistrict.test//Template/Admin/Blocks/edit_related.ctp:48
+msgid "Edit {0}"
+msgstr ""
+
+#: /Users/pascalschneider/Sites/flavourdistrict.test//Template/Cell/BlocksAdmin/display.ctp:10
+msgid "Content Blocks for {0} #{1}"
+msgstr ""
+
+#: /Users/pascalschneider/Sites/flavourdistrict.test//Template/Cell/BlocksAdmin/display.ctp:19
+#: /Users/pascalschneider/Sites/flavourdistrict.test//Template/Element/Admin/Blocks/edit/related_models_loop.ctp:30
+msgid "Sort"
+msgstr ""
+
+#: /Users/pascalschneider/Sites/flavourdistrict.test//Template/Cell/BlocksAdmin/display.ctp:22
+msgid "Published"
+msgstr ""
+
+#: /Users/pascalschneider/Sites/flavourdistrict.test//Template/Cell/BlocksAdmin/display.ctp:25
+msgid "Block Description"
+msgstr ""
+
+#: /Users/pascalschneider/Sites/flavourdistrict.test//Template/Cell/BlocksAdmin/display.ctp:61
+msgid "Add a new block"
+msgstr ""
+
+#: /Users/pascalschneider/Sites/flavourdistrict.test//Template/Cell/BlocksAdmin/display.ctp:65
+msgid "There are no blocks available yet."
+msgstr ""
+
+#: /Users/pascalschneider/Sites/flavourdistrict.test//Template/Element/Admin/Blocks/edit/related_models_loop.ctp:12
+msgid "Related Models"
+msgstr ""
+
+#: /Users/pascalschneider/Sites/flavourdistrict.test//Template/Element/Admin/Blocks/edit/related_models_loop.ctp:26
+msgid "ID"
+msgstr ""
+
+#: /Users/pascalschneider/Sites/flavourdistrict.test//Template/Element/Admin/Blocks/edit/related_models_loop.ctp:34
+msgid "Description"
+msgstr ""
+
+#: /Users/pascalschneider/Sites/flavourdistrict.test//Template/Element/Admin/Blocks/edit/related_models_loop.ctp:56
+msgid "Edit"
+msgstr ""
+
+#: /Users/pascalschneider/Sites/flavourdistrict.test//Template/Element/Admin/Blocks/edit/related_models_loop.ctp:68
+msgid "Add new"
+msgstr ""
+
