@@ -6,5 +6,8 @@
  */
 ?>
 <?php foreach ($area->blocks as $block): ?>
-    <?= $this->cell("ContentBlocks.BlocksArea::renderBlock", ['block' => $block, 'viewVariables' => $viewVariables]) ?>
+    <?php if ($block->is_published): ?>
+        <?= $this->cell("ContentBlocks.BlocksArea::renderBlock",
+            ['block' => $block, 'viewVariables' => $viewVariables]) ?>
+    <?php endif; ?>
 <?php endforeach; ?>
