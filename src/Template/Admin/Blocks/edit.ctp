@@ -19,21 +19,21 @@ $entity_edit_url = [
 ?>
 <div class="actions">
     <h2>
-        <?= __d("vendor/content_blocks", "Actions") ?>
+        <?= __d("content_blocks", "Actions") ?>
     </h2>
     <ul>
         <li>
-            <?= $this->Html->link(__d("vendor/content_blocks", "Go back"), $entity_edit_url) ?>
+            <?= $this->Html->link(__d("content_blocks", "Go back"), $entity_edit_url) ?>
         </li>
         <li>
-            <?= $this->Form->postLink(__d("vendor/content_blocks", "Delete Block"), [
+            <?= $this->Form->postLink(__d("content_blocks", "Delete Block"), [
                 'plugin' => "ContentBlocks",
                 'controller' => "Blocks",
                 'action' => "delete",
                 $contentBlock->id,
                 $contentBlock->block->type,
             ], [
-                'confirm' => __d("vendor/content_blocks", "Do you really want to delete Block #{0}?", [$contentBlock->id]),
+                'confirm' => __d("content_blocks", "Do you really want to delete Block #{0}?", [$contentBlock->id]),
                 'data' => [
                     'redirect' => \Cake\Routing\Router::url($entity_edit_url),
                 ],
@@ -44,11 +44,11 @@ $entity_edit_url = [
 <?= $this->Form->create($contentBlock, $contentBlock->getFormOptions()) ?>
 <fieldset>
     <legend>
-        <?= __d("vendor/content_blocks", "Fields for {0}", [
+        <?= __d("content_blocks", "Fields for {0}", [
             $contentBlock->getTitle(),
         ]) ?>
     </legend>
-    <?= empty($contentBlock->getFields()) ? __d("vendor/content_blocks", "This Block does not have any editable fields.") : null ?>
+    <?= empty($contentBlock->getFields()) ? __d("content_blocks", "This Block does not have any editable fields.") : null ?>
     <?php foreach ($contentBlock->getFields() as $field => $options): ?>
         <?= !empty($options['beforeControl']) ? $options['beforeControl'] : null ?>
         <?= $this->Form->control($field, $options) ?>
@@ -57,22 +57,22 @@ $entity_edit_url = [
 </fieldset>
 <fieldset>
     <legend>
-        <?= __d("vendor/content_blocks", "General Settings") ?>
+        <?= __d("content_blocks", "General Settings") ?>
     </legend>
     <?= $this->Form->control('block.sort', [
-        'label' => __d("vendor/content_blocks", "Sort Order"),
+        'label' => __d("content_blocks", "Sort Order"),
     ]) ?>
     <?= $this->Form->control('block.is_published', [
-        'label' => __d("vendor/content_blocks", "Is Published?"),
+        'label' => __d("content_blocks", "Is Published?"),
     ]) ?>
     <?= $this->Form->control('block.html_anchor', [
-        'label' => __d("vendor/content_blocks", "HTML Anchor"),
+        'label' => __d("content_blocks", "HTML Anchor"),
     ]) ?>
     <p>
         <?= $contentBlock->getViewRoute() ? $this->Html->link("&rarr; zum Block", $contentBlock->getViewRoute(), [
             'escapeTitle' => false,
             'target' => "_blank",
-        ]) : __d("vendor/content_blocks", "Error: Missing route for Block") ?>
+        ]) : __d("content_blocks", "Error: Missing route for Block") ?>
     </p>
 </fieldset>
 <?= $this->Form->submit() ?>

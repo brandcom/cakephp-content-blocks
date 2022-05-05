@@ -9,7 +9,7 @@ use \Cake\Utility\Inflector;
 <?php if (!empty($contentBlock->getManagedModels())): ?>
     <div class="related-models">
         <h2>
-            <?= __d("vendor/content_blocks", "Related Models") ?>
+            <?= __d("content_blocks", "Related Models") ?>
         </h2>
         <?php foreach ($contentBlock->getManagedModels() as $model): ?>
             <?php
@@ -23,18 +23,18 @@ use \Cake\Utility\Inflector;
                 <thead>
                 <tr>
                     <th>
-                        <?= __d("vendor/content_blocks", "ID") ?>
+                        <?= __d("content_blocks", "ID") ?>
                     </th>
                     <?php if ($instance->isAccessible("sort")): ?>
                         <th>
-                            <?= __d("vendor/content_blocks", "Sort") ?>
+                            <?= __d("content_blocks", "Sort") ?>
                         </th>
                     <?php endif; ?>
                     <th>
-                        <?= __d("vendor/content_blocks", "Description") ?>
+                        <?= __d("content_blocks", "Description") ?>
                     </th>
                     <th>
-                        <?= __d("vendor/content_blocks", "Actions") ?>
+                        <?= __d("content_blocks", "Actions") ?>
                     </th>
                 </tr>
                 </thead>
@@ -53,7 +53,7 @@ use \Cake\Utility\Inflector;
                             <?= $entity->getDescription() ?>
                         </td>
                         <td>
-                            <?= $this->Html->link(__d("vendor/content_blocks", "Edit"), [
+                            <?= $this->Html->link(__d("content_blocks", "Edit"), [
                                 'action' => 'editRelated',
                                 $contentBlock->id,
                                 $contentBlock->block->type,
@@ -65,7 +65,7 @@ use \Cake\Utility\Inflector;
                 <?php endforeach; ?>
                 </tbody>
             </table>
-            <?= $this->Form->postButton(__d("vendor/content_blocks", "Add new"), [
+            <?= $this->Form->postButton(__d("content_blocks", "Add new"), [
                 'plugin' => "ContentBlocks",
                 'controller' => "Blocks",
                 'action' => "addRelated",
