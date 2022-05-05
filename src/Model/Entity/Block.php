@@ -187,7 +187,7 @@ class Block extends Entity
      *
      * An Empty array means that all Entities can have this block.
      */
-    public function getAllowedEntities(): array
+    protected function getAllowedEntities(): array
     {
         return [];
     }
@@ -200,7 +200,7 @@ class Block extends Entity
      *      "Users",
      * ]
      */
-    public function getDisallowedEntities(): array
+    protected function getDisallowedEntities(): array
     {
         return [];
     }
