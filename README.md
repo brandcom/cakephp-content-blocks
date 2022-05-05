@@ -244,6 +244,29 @@ protected function getAllowedEntities(): array
 
 > **Note:** If a model is listed in both, it will be disallowed.
 
+### 10. Block HTML-Anchors and (custom) preview-link
+
+**New in 0.2.0:** Every Block has a field for an HTML-Anchor. A link to the anchor is displayed below. 
+
+To override the default route, you can define a url on your `$owner` entity which holds the Area, e.g. `Articles`. 
+This can be useful, if your URL uses a `slug` or other parameters. The `$block` instance will be passed to the method:  
+
+```
+public function getContentBlocksViewUrl(Block $block): array
+{
+    $anchor = $block->html_anchor ?: "content-block-" . $block->id;
+
+    return [
+        'prefix' => false,
+        'plugin' => false,
+        'controller' => 'Articles',
+        'action' => 'view',
+        $this->slug,
+        '#' => $anchor,
+    ];
+}
+```
+
 ## Contribution
 
 You can contribute to this project via pull requests or issues. 
