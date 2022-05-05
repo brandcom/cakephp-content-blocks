@@ -56,7 +56,7 @@
         </tbody>
         <tfoot>
         <tr>
-            <td colspan="3">
+            <td colspan="4">
                 <h3>
                     <?= __d("ContentBlocks", "Add a new block") ?>
                 </h3>
