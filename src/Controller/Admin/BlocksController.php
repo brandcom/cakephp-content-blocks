@@ -63,11 +63,11 @@ class BlocksController extends AppController
                 $this->request->getData());
             if ($this->{$contentBlock->getSource()}->save($contentBlock)) {
 
-                $this->Flash->success(__d("vendor/ContentBlocks", 'The content blocks block has been saved.'));
+                $this->Flash->success(__d("vendor/content_blocks", 'The content blocks block has been saved.'));
 
                 return $this->redirect(['action' => 'edit', $contentBlock->block->id]);
             }
-            $this->Flash->error(__d("vendor/ContentBlocks",
+            $this->Flash->error(__d("vendor/content_blocks",
                 'The content blocks block could not be saved. Please, try again.'));
         }
 
@@ -102,9 +102,9 @@ class BlocksController extends AppController
         ]);
 
         if ($this->Blocks->delete($block->block) && $blockTable->delete($block)) {
-            $this->Flash->success(__d("vendor/ContentBlocks", 'The content blocks block has been deleted.'));
+            $this->Flash->success(__d("vendor/content_blocks", 'The content blocks block has been deleted.'));
         } else {
-            $this->Flash->error(__d("vendor/ContentBlocks", 'The content blocks block could not be deleted. Please, try again.'));
+            $this->Flash->error(__d("vendor/content_blocks", 'The content blocks block could not be deleted. Please, try again.'));
         }
 
         return $this->redirect($this->getRequest()->getData('redirect'));
@@ -145,9 +145,9 @@ class BlocksController extends AppController
         if ($this->request->is(["post", "put", "patch"])) {
             $relatedTable->patchEntity($relatedEntity, $this->getRequest()->getData());
             if ($relatedTable->save($relatedEntity)) {
-                $this->Flash->success(__d("vendor/ContentBlocks", "{0} was saved successfully.", [$relatedModel]));
+                $this->Flash->success(__d("vendor/content_blocks", "{0} was saved successfully.", [$relatedModel]));
             } else {
-                $this->Flash->error(__d("vendor/ContentBlocks", "{0} could not be saved.", [$relatedModel]));
+                $this->Flash->error(__d("vendor/content_blocks", "{0} could not be saved.", [$relatedModel]));
             }
         }
 
@@ -163,13 +163,13 @@ class BlocksController extends AppController
         $relatedEntity = $relatedTable->get($relatedId);
 
         if ($relatedTable->delete($relatedEntity)) {
-            $this->Flash->success(__d("vendor/ContentBlocks", "The {0} has been deleted.", [
+            $this->Flash->success(__d("vendor/content_blocks", "The {0} has been deleted.", [
                 $relatedEntity->getTitle(),
             ]));
             return $this->redirect($this->getRequest()->getData("redirect"));
         }
 
-        $this->Flash->error(__d("vendor/ContentBlocks", "Could not delete {0}", [
+        $this->Flash->error(__d("vendor/content_blocks", "Could not delete {0}", [
             $relatedEntity->getTitle(),
         ]));
     }

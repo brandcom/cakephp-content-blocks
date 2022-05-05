@@ -9,7 +9,7 @@ use \Cake\Utility\Inflector;
 <?php if (!empty($contentBlock->getManagedModels())): ?>
     <div class="related-models">
         <h2>
-            <?= __d("vendor/ContentBlocks", "Related Models") ?>
+            <?= __d("vendor/content_blocks", "Related Models") ?>
         </h2>
         <?php foreach ($contentBlock->getManagedModels() as $model): ?>
             <?php
@@ -23,18 +23,18 @@ use \Cake\Utility\Inflector;
                 <thead>
                 <tr>
                     <th>
-                        <?= __d("vendor/ContentBlocks", "ID") ?>
+                        <?= __d("vendor/content_blocks", "ID") ?>
                     </th>
                     <?php if ($instance->isAccessible("sort")): ?>
                         <th>
-                            <?= __d("vendor/ContentBlocks", "Sort") ?>
+                            <?= __d("vendor/content_blocks", "Sort") ?>
                         </th>
                     <?php endif; ?>
                     <th>
-                        <?= __d("vendor/ContentBlocks", "Description") ?>
+                        <?= __d("vendor/content_blocks", "Description") ?>
                     </th>
                     <th>
-                        <?= __d("vendor/ContentBlocks", "Actions") ?>
+                        <?= __d("vendor/content_blocks", "Actions") ?>
                     </th>
                 </tr>
                 </thead>
@@ -53,7 +53,7 @@ use \Cake\Utility\Inflector;
                             <?= $entity->getDescription() ?>
                         </td>
                         <td>
-                            <?= $this->Html->link(__d("vendor/ContentBlocks", "Edit"), [
+                            <?= $this->Html->link(__d("vendor/content_blocks", "Edit"), [
                                 'action' => 'editRelated',
                                 $contentBlock->id,
                                 $contentBlock->block->type,
@@ -65,7 +65,7 @@ use \Cake\Utility\Inflector;
                 <?php endforeach; ?>
                 </tbody>
             </table>
-            <?= $this->Form->postButton(__d("vendor/ContentBlocks", "Add new"), [
+            <?= $this->Form->postButton(__d("vendor/content_blocks", "Add new"), [
                 'plugin' => "ContentBlocks",
                 'controller' => "Blocks",
                 'action' => "addRelated",

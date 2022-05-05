@@ -17,14 +17,14 @@ $block_edit_url = [
 ?>
 <div class="actions">
     <h2>
-        <?= __d("vendor/ContentBlocks", "Actions") ?>
+        <?= __d("vendor/content_blocks", "Actions") ?>
     </h2>
     <ul>
         <li>
-            <?= $this->Html->link(__d("vendor/ContentBlocks", "Go back"), $block_edit_url) ?>
+            <?= $this->Html->link(__d("vendor/content_blocks", "Go back"), $block_edit_url) ?>
         </li>
         <li>
-            <?= $this->Form->postLink(__d("vendor/ContentBlocks", "Delete {0}", [$relatedEntity->getTitle()]), [
+            <?= $this->Form->postLink(__d("vendor/content_blocks", "Delete {0}", [$relatedEntity->getTitle()]), [
                 'plugin' => "ContentBlocks",
                 'controller' => "Blocks",
                 'action' => "deleteRelated",
@@ -34,7 +34,7 @@ $block_edit_url = [
                 'data' => [
                     'redirect' => \Cake\Routing\Router::url($block_edit_url),
                 ],
-                'confirm' => __d("vendor/ContentBlocks", "Do you want to delete {0} #{1}?", [
+                'confirm' => __d("vendor/content_blocks", "Do you want to delete {0} #{1}?", [
                     $relatedEntity->getTitle(),
                     $relatedEntity->get("id"),
                 ])
@@ -45,7 +45,7 @@ $block_edit_url = [
 <?= $this->Form->create($relatedEntity, $relatedEntity->getFormOptions()) ?>
 <fieldset>
     <legend>
-        <?= __d("vendor/ContentBlocks", "Edit {0}", [
+        <?= __d("vendor/content_blocks", "Edit {0}", [
             $relatedEntity->getTitle()
         ]) ?>
     </legend>
