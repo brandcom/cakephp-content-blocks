@@ -74,7 +74,9 @@ class BlocksController extends AppController
         $adminViewVariables = $this->{$contentBlock->getSource()}
             ->getAdminViewVariables($contentBlock);
 
-        $this->set(compact('contentBlock'));
+        $blockViewUrl = $this->Blocks->getViewUrl($contentBlock);
+
+        $this->set(compact('contentBlock', 'blockViewUrl'));
         $this->set($adminViewVariables);
     }
 

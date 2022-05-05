@@ -6,6 +6,7 @@ use Cake\Event\Event;
 use Cake\ORM\Locator\LocatorAwareTrait;
 use Cake\ORM\Query;
 use Cake\ORM\Table;
+use Cake\Routing\Router;
 use Cake\Validation\Validator;
 use ContentBlocks\Model\Entity\Block;
 
@@ -134,7 +135,6 @@ class BlocksTable extends Table
      *
      * @param $block_id
      * @return EntityInterface
-     * @throws \ReflectionException
      */
     public function getOwner(Block $block): EntityInterface
     {
@@ -189,5 +189,32 @@ class BlocksTable extends Table
             ])
             ->contain($contained)
             ->first();
+    }
+
+    public function getViewUrl(Block $block): ?array
+    {
+        if ($block->get("block")) {
+            $block = $block->get("block");
+        }
+
+        $owner = $this->getOwner($block);
+
+        if (method_exists($owner, "getContentBlocksViewUrl")) {
+
+            return $owner->getContentBlocksViewUrl($block);
+        }
+
+        $anchor = $block->html_anchor ?? null;
+
+        $route = [
+            'prefix' => false,
+            'plugin' => false,
+            'controller' => $block->area->owner_model,
+            'action' => 'view',
+            $block->area->owner_id,
+            '#' => $anchor ?: "content-block-" . $block->id,
+        ];
+
+        return Router::routeExists($route) ? $route : null;
     }
 }
