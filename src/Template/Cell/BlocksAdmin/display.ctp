@@ -7,7 +7,7 @@
 ?>
 <div class="content-blocks-admin">
     <h2>
-        <?= __d("ContentBlocks", "Content Blocks for {0} #{1}", [
+        <?= __d("vendor/ContentBlocks", "Content Blocks for {0} #{1}", [
             h(\Cake\Utility\Inflector::singularize($area->owner_model)),
             h($area->owner_id),
         ]) ?>
@@ -16,13 +16,13 @@
         <thead>
         <tr>
             <th>
-                <?= __d("ContentBlocks", "Sort") ?>
+                <?= __d("vendor/ContentBlocks", "Sort") ?>
             </th>
             <th>
-                <?= __d("ContentBlocks", "Published") ?>
+                <?= __d("vendor/ContentBlocks", "Published") ?>
             </th>
             <th>
-                <?= __d("ContentBlocks", "Block Description") ?>
+                <?= __d("vendor/ContentBlocks", "Block Description") ?>
             </th>
             <th>
                 <?= __("Actions") ?>
@@ -58,11 +58,11 @@
         <tr>
             <td colspan="4">
                 <h3>
-                    <?= __d("ContentBlocks", "Add a new block") ?>
+                    <?= __d("vendor/ContentBlocks", "Add a new block") ?>
                 </h3>
                 <?php if (empty($availableBlocks)): ?>
                     <p>
-                        <?= __d("ContentBlocks", "There are no blocks available yet.") ?>
+                        <?= __d("vendor/ContentBlocks", "There are no blocks available yet.") ?>
                     </p>
                 <?php else: ?>
                     <ul>
