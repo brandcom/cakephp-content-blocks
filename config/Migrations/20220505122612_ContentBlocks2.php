@@ -19,7 +19,7 @@ class ContentBlocks2 extends AbstractMigration
                 'default' => null,
                 'limit' => 255,
                 'null' => true,
-                'type' => 'sort',
+                'after' => 'type',
             ])
             ->update();
     }
