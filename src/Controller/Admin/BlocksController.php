@@ -54,59 +54,23 @@ class BlocksController extends AppController
      */
     public function edit($id = null)
     {
-        /**
-         * @var Block $block
-         * @var Block $contentBlock
-         */
-        $block = $this->Blocks->get($id);
-
-        $this->loadModel($block->type);
-
-        $contentBlock = $this->{$block->type}
-            ->find()
-            ->where([
-                'content_blocks_block_id' => $block->id,
-            ])
-            ->first();
-
-        $contained = [
-            'Blocks.Areas',
-        ];
-
-        if (!empty($contentBlock->getManagedModels())) {
-            $associated = array_map(
-                function ($model) {
-                    return \Cake\Utility\Inflector::pluralize($model);
-                },
-                $contentBlock->getManagedModels()
-            );
-
-            $contained = array_merge($contained, $associated);
-        }
-
-        $contentBlock = $this->{$block->type}
-            ->find()
-            ->where([
-                'content_blocks_block_id' => $block->id,
-            ])
-            ->contain($contained)
-            ->first();
+        $contentBlock = $this->Blocks->getContentBlock($id);
 
         if ($this->request->is(['patch', 'post', 'put'])) {
 
-            $contentBlock = $this->{$block->type}->patchEntity($contentBlock,
+            $contentBlock = $this->{$contentBlock->getSource()}->patchEntity($contentBlock,
                 $this->request->getData());
-            if ($this->{$block->type}->save($contentBlock)) {
+            if ($this->{$contentBlock->getSource()}->save($contentBlock)) {
 
                 $this->Flash->success(__d("ContentBlocks", 'The content blocks block has been saved.'));
 
-                return $this->redirect(['action' => 'edit', $block->id]);
+                return $this->redirect(['action' => 'edit', $contentBlock->block->id]);
             }
             $this->Flash->error(__d("ContentBlocks",
                 'The content blocks block could not be saved. Please, try again.'));
         }
 
-        $adminViewVariables = $this->{$block->type}
+        $adminViewVariables = $this->{$contentBlock->getSource()}
             ->getAdminViewVariables($contentBlock);
 
         $this->set(compact('contentBlock'));

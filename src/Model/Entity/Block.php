@@ -38,24 +38,48 @@ class Block extends Entity
         'content_blocks_area' => true,
     ];
 
+    protected $_hidden = [
+        "content_blocks_block_id" => true,
+        "created" => true,
+        "modified" => true,
+        "id" => true,
+        "block" => true,
+    ];
+
     /**
      * Array of field names that won't get an input field in the admin form
      *
+     * e.g. [
+     *      'id',
+     *      'something_hidden',
+     *      ...
+     * ]
+     *
      * @return string[]
      */
-    public function getHiddenFields(): array
+    protected function getHiddenFields(): array
     {
-        return [
-            "content_blocks_block_id",
-            "created",
-            "modified",
-            "id",
-            "block",
-        ];
+        $hidden_fields = [];
+
+        foreach ($this->_hidden as $field => $is_hidden) {
+            if ($is_hidden) {
+                $hidden_fields[] = $field;
+            }
+        }
+
+        return $hidden_fields;
     }
 
     /**
      * Array of field names (keys) and options for the FormHelper (values)
+     *
+     * e.g. [
+     *      'title' => [
+     *          'label' => __("The Title"),
+     *          ...,
+     *      ],
+     *      'content' => ...
+     * ]
      *
      * @return array
      */
@@ -154,11 +178,11 @@ class Block extends Entity
     }
 
     /**
-     * Array of Entities that are allowed to have this block.
+     * Array of Entity-Models that are allowed to have this block.
      *
      * E.g., to only allow a TextContentBlock on an Article:
      * return [
-     *      "Article",
+     *      "Articles",
      * ];
      *
      * An Empty array means that all Entities can have this block.
@@ -169,11 +193,11 @@ class Block extends Entity
     }
 
     /**
-     * Array of Entities that are not allowed to have this block.
+     * Array of Entitiy-Models that are not allowed to have this block.
      *
      * E.g. [
-     *      "Article",
-     *      "User",
+     *      "Articles",
+     *      "Users",
      * ]
      */
     public function getDisallowedEntities(): array
@@ -189,13 +213,11 @@ class Block extends Entity
      */
     public function canBeOnEntity(EntityInterface $entity): bool
     {
-        $modelName = Inflector::singularize($entity->getSource());
-
-        if (in_array($modelName, $this->getDisallowedEntities())) {
+        if (in_array($entity->getSource(), $this->getDisallowedEntities())) {
 
             return false;
         }
 
-        return empty($this->getAllowedEntities()) || in_array($modelName, $this->getAllowedEntities());
+        return empty($this->getAllowedEntities()) || in_array($entity->getSource(), $this->getAllowedEntities());
     }
 }

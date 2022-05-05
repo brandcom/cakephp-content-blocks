@@ -146,4 +146,39 @@ class BlocksTable extends Table
          */
         return $this->getTableLocator()->get($block->area->owner_model)->get($block->area->owner_id);
     }
+
+    /**
+     * Returns the user-created *ContentBlock,
+     * containing the Block, the BlockArea and the *ContentBlock's managed models.
+     *
+     * @param int $block_id
+     * @return Block|EntityInterface
+     */
+    public function getContentBlock(int $block_id)
+    {
+        /**
+         * @var Block $block
+         * @var Block $contentBlock
+         */
+        $block = $this->Blocks->get($block_id);
+        $this->loadModel($block->type);
+
+        $contentBlock = $this->{$block->type}
+            ->find()
+            ->where([
+                'content_blocks_block_id' => $block->id,
+            ])
+            ->first();
+
+        $contained = ['Blocks.Areas'];
+        $contained = array_merge($contained, $contentBlock->getManagedModels());
+
+        return $this->{$block->type}
+            ->find()
+            ->where([
+                'content_blocks_block_id' => $block->id,
+            ])
+            ->contain($contained)
+            ->first();
+    }
 }

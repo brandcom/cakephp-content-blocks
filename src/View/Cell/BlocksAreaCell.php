@@ -23,6 +23,8 @@ class BlocksAreaCell extends Cell
      */
     protected $_validCellOptions = [];
 
+    private BlocksTable $Blocks;
+
     /**
      * Initialization logic run at the end of object construction.
      *
@@ -31,6 +33,7 @@ class BlocksAreaCell extends Cell
     public function initialize()
     {
         $this->loadModel("ContentBlocks.Areas");
+        $this->loadModel("ContentBlocks.Blocks");
     }
 
     /**
@@ -47,18 +50,13 @@ class BlocksAreaCell extends Cell
 
     public function renderBlock(Block $block, array $viewVariables)
     {
-        $this->loadModel($block->type);
         /**
          * @var BlocksTable $table
          * @var Block $contentBlock
          */
+        $this->loadModel($block->type);
         $table = $this->{$block->type};
-        $contentBlock = $table->find()
-            ->where([
-                'content_blocks_block_id' => $block->id,
-            ])
-            ->contain(['Blocks'])
-            ->first();
+        $contentBlock = $this->Blocks->getContentBlock($block->id);
 
         $viewVariables = array_merge(
             $table->getViewVariables($contentBlock),

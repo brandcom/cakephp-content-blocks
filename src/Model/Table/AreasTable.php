@@ -2,14 +2,17 @@
 namespace ContentBlocks\Model\Table;
 
 use Cake\Datasource\EntityInterface;
+use Cake\Filesystem\Folder;
 use Cake\ORM\Entity;
 use Cake\ORM\Locator\LocatorAwareTrait;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Routing\Router;
+use Cake\Utility\Inflector;
 use Cake\Validation\Validator;
 use ContentBlocks\Model\Entity\Area;
+use ContentBlocks\Model\Entity\Block;
 
 /**
  * ContentBlocksAreas Model
@@ -96,5 +99,44 @@ class AreasTable extends Table
         );
 
         return $area;
+    }
+
+    public function getAvailableBlocks(EntityInterface $entity): array
+    {
+        $entitiesDir = new Folder(ROOT . DS . 'src' . DS . 'Model' . DS . 'Entity' . DS);
+        $blockFiles = $entitiesDir->find(".*\ContentBlock.php");
+
+        $blocks = array_map(
+            function ($block) use ($entity) {
+
+                try {
+                    $reflectionClass = new \ReflectionClass("App\\Model\\Entity\\" . str_replace('.php', '', $block));
+                    $blockTable = $this->loadModel(Inflector::pluralize($reflectionClass->getShortName()));
+                    $blockEntity = $blockTable->newEntity();
+
+
+                    /**
+                     * @var Block $blockEntity
+                     */
+                    if ($blockEntity->canBeOnEntity($entity)) {
+                        return $blockEntity;
+                    }
+
+                    return false;
+
+                } catch (\Exception $e) {
+
+                    return false;
+                }
+            },
+            $blockFiles
+        );
+
+        return array_filter(
+            $blocks,
+            function ($block) {
+                return (bool)$block;
+            }
+        );
     }
 }

@@ -43,47 +43,8 @@ class BlocksAdminCell extends Cell
     {
         $area = $this->Areas->findOrCreateForEntity($entity);
 
-        $availableBlocks = $this->getAvailableBlocks($entity);
+        $availableBlocks = $this->Areas->getAvailableBlocks($entity);
 
         $this->set(compact('area', 'availableBlocks'));
-    }
-
-    private function getAvailableBlocks(EntityInterface $entity): array
-    {
-        $entitiesDir = new Folder(ROOT . DS . 'src' . DS . 'Model' . DS . 'Entity' . DS);
-        $blockFiles = $entitiesDir->find(".*\ContentBlock.php");
-
-        $blocks = array_map(
-            function ($block) use ($entity) {
-
-                try {
-                    $reflectionClass = new \ReflectionClass("App\\Model\\Entity\\" . str_replace('.php', '', $block));
-                    $blockTable = $this->loadModel(Inflector::pluralize($reflectionClass->getShortName()));
-                    $blockEntity = $blockTable->newEntity();
-
-
-                    /**
-                     * @var Block $blockEntity
-                     */
-                    if ($blockEntity->canBeOnEntity($entity)) {
-                        return $blockEntity;
-                    }
-
-                    return false;
-
-                } catch (\Exception $e) {
-
-                    return false;
-                }
-            },
-            $blockFiles
-        );
-
-        return array_filter(
-            $blocks,
-            function ($block) {
-                return (bool)$block;
-            }
-        );
     }
 }
