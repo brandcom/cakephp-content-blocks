@@ -61,6 +61,12 @@ $entity_edit_url = [
     <?= $this->Form->control('block.sort', [
         'label' => __d("ContentBlocks", "Sort Order"),
     ]) ?>
+    <?= $this->Form->control('block.is_published', [
+        'label' => __d("ContentBlocks", "Is Published?"),
+    ]) ?>
+    <?= $this->Form->control('block.html_anchor', [
+        'label' => __d("ContentBlocks", "HTML Anchor"),
+    ]) ?>
 </fieldset>
 <?= $this->Form->submit() ?>
 <?= $this->Form->end() ?>

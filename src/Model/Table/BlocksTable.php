@@ -70,10 +70,18 @@ class BlocksTable extends Table
             ->allowEmptyString('sort');
 
         $validator
+            ->boolean('is_published');
+
+        $validator
             ->scalar('type')
             ->maxLength('type', 255)
             ->requirePresence('type', 'create')
             ->notEmptyString('type');
+
+        $validator
+            ->scalar('html_anchor')
+            ->maxLength('html_anchor', 255)
+            ->allowEmptyString('html_anchor');
 
         return $validator;
     }

@@ -12,7 +12,9 @@ use Cake\Utility\Inflector;
  * @property int $id
  * @property int $content_blocks_area_id
  * @property int|null $sort
+ * @property boolean $is_published
  * @property string $type
+ * @property string $html_anchor
  * @property \Cake\I18n\FrozenTime|null $created
  * @property \Cake\I18n\FrozenTime|null $modified
  *
@@ -32,7 +34,9 @@ class Block extends Entity
     protected $_accessible = [
         'content_blocks_area_id' => true,
         'sort' => true,
+        'is_published' => true,
         'type' => true,
+        'html_anchor' => true,
         'created' => true,
         'modified' => true,
         'content_blocks_area' => true,
