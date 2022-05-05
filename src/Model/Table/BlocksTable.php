@@ -139,7 +139,7 @@ class BlocksTable extends Table
     public function getOwner(Block $block): EntityInterface
     {
         $BlockTable = $this->getTableLocator()->get("ContentBlocks.Blocks");
-        if ($block->getSource() !== "ContentBlocks.Block") {
+        if ($block->getSource() !== "ContentBlocks.Blocks") {
             $block = $BlockTable->get($block->get("content_blocks_block_id"));
         }
 
