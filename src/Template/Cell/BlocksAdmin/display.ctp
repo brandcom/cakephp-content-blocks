@@ -19,6 +19,9 @@
                 <?= __d("ContentBlocks", "Sort") ?>
             </th>
             <th>
+                <?= __d("ContentBlocks", "Published") ?>
+            </th>
+            <th>
                 <?= __d("ContentBlocks", "Block Description") ?>
             </th>
             <th>
@@ -31,6 +34,9 @@
             <tr>
                 <td>
                     <?= $this->Number->format($block->sort) ?>
+                </td>
+                <td>
+                    <?= $block->is_published ? $this->Html->div("block-is-published text-success success", "&check;") : $this->Html->div("block-not-published text-danger error", "&cross;") ?>
                 </td>
                 <td>
                     <?= $block->custom_block->getDescription() ?>
