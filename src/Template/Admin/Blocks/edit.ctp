@@ -16,15 +16,6 @@ $entity_edit_url = [
     $contentBlock->block->area->owner_id,
 ];
 
-$block_anchor_route = [
-    'prefix' => false,
-    'plugin' => false,
-    'controller' => $contentBlock->block->area->owner_model,
-    'action' => 'view',
-    $contentBlock->block->area->owner_id,
-    '#' => $contentBlock->block->html_anchor ?: "content-block-" . $contentBlock->block->id,
-];
-
 ?>
 <div class="actions">
     <h2>
@@ -78,7 +69,7 @@ $block_anchor_route = [
         'label' => __d("ContentBlocks", "HTML Anchor"),
     ]) ?>
     <p>
-        <?= Router::routeExists($block_anchor_route) ? $this->Html->link("&rarr; zum Block", $block_anchor_route, [
+        <?= $contentBlock->getViewRoute() ? $this->Html->link("&rarr; zum Block", $contentBlock->getViewRoute(), [
             'escapeTitle' => false,
             'target' => "_blank",
         ]) : __d("ContentBlocks", "Error: Missing route for Block") ?>

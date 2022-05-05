@@ -4,6 +4,7 @@ namespace ContentBlocks\Model\Entity;
 use App\View\AppView;
 use Cake\Datasource\EntityInterface;
 use Cake\ORM\Entity;
+use Cake\Routing\Router;
 use Cake\Utility\Inflector;
 
 /**
@@ -223,5 +224,23 @@ class Block extends Entity
         }
 
         return empty($this->getAllowedEntities()) || in_array($entity->getSource(), $this->getAllowedEntities());
+    }
+
+    public function getViewRoute(): ?array
+    {
+        $route = [
+            'prefix' => false,
+            'plugin' => false,
+            'controller' => $this->area->owner_model,
+            'action' => 'view',
+            $this->area->owner_id,
+            '#' => $this->html_anchor ?: "content-block-" . $this->id,
+        ];
+
+        if (Router::routeExists($route)) {
+            return $route;
+        }
+
+        return null;
     }
 }
