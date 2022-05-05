@@ -19,7 +19,7 @@ class ContentBlocks2 extends AbstractMigration
                 'limit' => 255,
                 'null' => true,
             ])
-            ->create();
+            ->update();
     }
 
     public function down()
