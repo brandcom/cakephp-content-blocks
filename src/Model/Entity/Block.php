@@ -225,24 +225,4 @@ class Block extends Entity
 
         return empty($this->getAllowedEntities()) || in_array($entity->getSource(), $this->getAllowedEntities());
     }
-
-    public function getViewRoute(): ?array
-    {
-        $anchor = $this->html_anchor ?? $this->block->html_anchor ?? null;
-
-        $route = [
-            'prefix' => false,
-            'plugin' => false,
-            'controller' => $this->block->area->owner_model ?? $this->area->owner_model ?? null,
-            'action' => 'view',
-            $this->block->area->owner_id ?? $this->area->owner_id ?? null,
-            '#' => $anchor ?: "content-block-" . ($this->block->id ?? $this->id ?? null),
-        ];
-
-        if (Router::routeExists($route)) {
-            return $route;
-        }
-
-        return null;
-    }
 }

@@ -1,6 +1,7 @@
 <?php
 /**
  * @var Block|Entity $contentBlock
+ * @var string $blockViewUrl
  * @var AppView $this
  */
 
@@ -69,7 +70,7 @@ $entity_edit_url = [
         'label' => __d("content_blocks", "HTML Anchor"),
     ]) ?>
     <p>
-        <?= $contentBlock->getViewRoute() ? $this->Html->link("&rarr; zum Block", $contentBlock->getViewRoute(), [
+        <?= $blockViewUrl ? $this->Html->link("&rarr; zum Block", $blockViewUrl, [
             'escapeTitle' => false,
             'target' => "_blank",
         ]) : __d("content_blocks", "Error: Missing route for Block") ?>
