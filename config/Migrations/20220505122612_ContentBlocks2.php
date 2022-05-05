@@ -13,11 +13,13 @@ class ContentBlocks2 extends AbstractMigration
                 'default' => false,
                 'limit' => null,
                 'null' => false,
+                'after' => 'sort',
             ])
             ->addColumn('html_anchor', 'string', [
                 'default' => null,
                 'limit' => 255,
                 'null' => true,
+                'type' => 'sort',
             ])
             ->update();
     }
