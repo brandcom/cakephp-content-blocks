@@ -81,7 +81,15 @@ class Block extends Entity
      */
     public function getFormOptions(): array
     {
-        return [];
+        $options = [];
+
+        foreach ($this->getFields() as $field) {
+            if (!empty($field['type']) && $field['type'] === 'file') {
+                $options['type'] = 'file';
+            }
+        }
+
+        return $options;
     }
 
     public function render(array $viewVariables): string
