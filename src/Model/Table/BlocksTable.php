@@ -159,11 +159,12 @@ class BlocksTable extends Table
         /**
          * @var Block $block
          * @var Block $contentBlock
+         * @var BlocksTable $contentBlocksTable
          */
-        $block = $this->Blocks->get($block_id);
-        $this->loadModel($block->type);
+        $block = $this->get($block_id);
+        $contentBlocksTable = $this->getTableLocator()->get($block->type);
 
-        $contentBlock = $this->{$block->type}
+        $contentBlock = $contentBlocksTable
             ->find()
             ->where([
                 'content_blocks_block_id' => $block->id,
@@ -173,7 +174,7 @@ class BlocksTable extends Table
         $contained = ['Blocks.Areas'];
         $contained = array_merge($contained, $contentBlock->getManagedModels());
 
-        return $this->{$block->type}
+        return $contentBlocksTable
             ->find()
             ->where([
                 'content_blocks_block_id' => $block->id,

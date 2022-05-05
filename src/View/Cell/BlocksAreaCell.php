@@ -12,6 +12,7 @@ use ContentBlocks\Model\Table\BlocksTable;
  * BlocksArea cell
  *
  * @property AreasTable $Areas
+ * @property BlocksTable $Blocks
  */
 class BlocksAreaCell extends Cell
 {
@@ -22,8 +23,6 @@ class BlocksAreaCell extends Cell
      * @var array
      */
     protected $_validCellOptions = [];
-
-    private BlocksTable $Blocks;
 
     /**
      * Initialization logic run at the end of object construction.

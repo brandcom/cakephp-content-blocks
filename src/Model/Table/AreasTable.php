@@ -110,10 +110,10 @@ class AreasTable extends Table
             function ($block) use ($entity) {
 
                 try {
-                    $reflectionClass = new \ReflectionClass("App\\Model\\Entity\\" . str_replace('.php', '', $block));
-                    $blockTable = $this->loadModel(Inflector::pluralize($reflectionClass->getShortName()));
-                    $blockEntity = $blockTable->newEntity();
 
+                    $reflectionClass = new \ReflectionClass("App\\Model\\Entity\\" . str_replace('.php', '', $block));
+                    $blockTable = $this->getTableLocator()->get(Inflector::pluralize($reflectionClass->getShortName()));
+                    $blockEntity = $blockTable->newEntity();
 
                     /**
                      * @var Block $blockEntity

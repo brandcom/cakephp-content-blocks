@@ -55,6 +55,7 @@ class BlocksController extends AppController
     public function edit($id = null)
     {
         $contentBlock = $this->Blocks->getContentBlock($id);
+        $this->loadModel($contentBlock->getSource());
 
         if ($this->request->is(['patch', 'post', 'put'])) {
 
