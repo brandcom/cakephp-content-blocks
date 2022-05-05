@@ -86,7 +86,7 @@ class AreasTable extends Table
 
         $area = $this->get($area->id, [
             'contain' => [
-                'Blocks',
+                'Blocks.Areas',
             ],
         ]);
 

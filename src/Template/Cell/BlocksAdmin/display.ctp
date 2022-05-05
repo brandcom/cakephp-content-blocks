@@ -31,12 +31,12 @@
         </thead>
         <tbody>
         <?php foreach ($area->blocks as $block): ?>
-            <tr>
+            <tr class="block-table-row <?= $block->is_published ? "--is-published" : "--not-published" ?>">
                 <td>
                     <?= $this->Number->format($block->sort) ?>
                 </td>
                 <td>
-                    <?= $block->is_published ? $this->Html->div("block-is-published text-success success", "&check;") : $this->Html->div("block-not-published text-danger error", "&cross;") ?>
+                    <?= $block->is_published ? $this->Html->div("published-mark text-success success", "&check;") : $this->Html->div("published-mark text-danger error", "&cross;") ?>
                 </td>
                 <td>
                     <?= $block->custom_block->getDescription() ?>
@@ -49,6 +49,7 @@
                         'action' => 'edit',
                         $block->id,
                     ]) ?>
+                    <?= $block->is_published && $block->getViewRoute() ? $this->Html->link(__("View"), $block->getViewRoute()) : null ?>
                 </td>
             </tr>
         <?php endforeach; ?>
