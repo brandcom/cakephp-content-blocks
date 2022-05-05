@@ -184,7 +184,9 @@ a `SliderBlockSlidesTable`.
 ```
 public function getManagedModels(): array
 {
-    return ["SliderBlockSlide"];
+    return [
+        "SliderBlockSlides,"
+    ];
 }
 ```
 
@@ -214,6 +216,33 @@ public function getViewVariables($entity): array
 ```
 
 `$entity`, the instance of your `*ContentBlock`, will be passed to the method.
+
+### 9. Allow or disallow the ContentBlock on specific Entities
+
+If an Entity's model is listed in ContentBlock::getDisallowedEntities(), it will never be visible in the Block list. 
+
+```
+protected function getDisallowedEntities(): array
+{
+    return [
+        "Articles",
+        "Jobs",
+    ];
+}
+```
+
+You can also define a list of allowed Entities: 
+
+```
+protected function getAllowedEntities(): array
+{
+    return [
+        "BlogPosts",
+    ];
+}
+```
+
+> **Note:** If a model is listed in both, it will be disallowed.
 
 ## Contribution
 
