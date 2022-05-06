@@ -54,7 +54,7 @@ class SortableEntitiesBehavior extends Behavior
 
 
         if (empty($this_entity->sort) || (int)$this_entity->sort <= 0) {
-            $this_entity->sort = $entities->count() + 1;
+            $this_entity->sort = count($entities) + 1;
 
             return;
         }
