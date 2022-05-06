@@ -135,22 +135,30 @@ class Block extends Entity
      * Get a human-readable Title for the Admin area
      *
      * @return string
-     * @throws \ReflectionException
      */
-    public function getTitle(): string
+    public function getTitle(): ?string
     {
-        $className = empty($this->type) ?
-            str_replace("App\\Model\\Entity\\", "", get_class($this))
-            : Inflector::singularize($this->type);
-        $reflectionClass = new \ReflectionClass("App\\Model\\Entity\\" . $className);
+        try {
 
-        $method = new \ReflectionMethod($reflectionClass->getName(), "getTitle");
-        if ($method->class !== Block::class) {
+            $className = empty($this->type) ?
+                str_replace("App\\Model\\Entity\\", "", get_class($this))
+                : Inflector::singularize($this->type);
+            $reflectionClass = new \ReflectionClass("App\\Model\\Entity\\" . $className);
 
-            return $reflectionClass->newInstance()->getTitle();
+            $method = new \ReflectionMethod($reflectionClass->getName(), "getTitle");
+            if ($method->class !== Block::class) {
+
+                return $reflectionClass->newInstance()->getTitle();
+            }
+
+            return Inflector::humanize(Inflector::underscore($reflectionClass->getShortName()));
+
+        } catch (\ReflectionException $exception) {
+
+            debug($exception->getMessage());
+
+            return null;
         }
-
-        return Inflector::humanize(Inflector::underscore($reflectionClass->getShortName()));
     }
 
     /**
@@ -158,11 +166,12 @@ class Block extends Entity
      * not the block as the class.
      *
      * @return string
-     * @throws \ReflectionException
      */
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
-        return $this->title ? $this->getTitle() . ': ' . $this->title : $this->getTitle();
+        return $this->get("title") ?
+            $this->getTitle() . ': ' . $this->get("title")
+            : $this->getTitle();
     }
 
     /**
