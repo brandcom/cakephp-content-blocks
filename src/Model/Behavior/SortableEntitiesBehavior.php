@@ -18,7 +18,9 @@ class SortableEntitiesBehavior extends Behavior
      *
      * @var array
      */
-    protected $_defaultConfig = [];
+    protected $_defaultConfig = [
+        'scope_fields' => [],
+    ];
 
     public function beforeSave(EventInterface $event, EntityInterface $entity, $options): bool
     {
@@ -36,7 +38,20 @@ class SortableEntitiesBehavior extends Behavior
             return;
         }
 
-        $entities = $this->getTable()->find()->where([$this->getTable()->getAlias() . '.id !=' => $this_entity->id ?? 0])->all();
+        $conditions = [
+            $this->getTable()->getAlias() . '.id !=' => $this_entity->id ?? 0,
+        ];
+
+        foreach ($this->getConfig("scope_fields") as $field) {
+            $value = $this_entity->get($field);
+            if ($value) {
+                $conditions[$field] = $value;
+            }
+        }
+
+        $entities = $this->getTable()->find()
+            ->where($conditions)->toArray();
+
 
         if (empty($this_entity->sort) || (int)$this_entity->sort <= 0) {
             $this_entity->sort = $entities->count() + 1;

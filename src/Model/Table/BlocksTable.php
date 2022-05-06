@@ -45,7 +45,9 @@ class BlocksTable extends Table
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
-        $this->addBehavior('ContentBlocks.SortableEntities');
+        $this->addBehavior('ContentBlocks.SortableEntities', [
+            'scope_fields' => ['content_blocks_area_id'],
+        ]);
 
         $this->belongsTo('Areas', [
             'foreignKey' => 'content_blocks_area_id',
