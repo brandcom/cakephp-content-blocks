@@ -43,12 +43,15 @@ class Block extends Entity
         'content_blocks_area' => true,
     ];
 
+    /**
+     * @var string[]
+     */
     protected $_hidden = [
-        "content_blocks_block_id" => true,
-        "created" => true,
-        "modified" => true,
-        "id" => true,
-        "block" => true,
+        "content_blocks_block_id",
+        "created",
+        "modified",
+        "id",
+        "block",
     ];
 
     /**
@@ -64,15 +67,7 @@ class Block extends Entity
      */
     protected function getHiddenFields(): array
     {
-        $hidden_fields = [];
-
-        foreach ($this->_hidden as $field => $is_hidden) {
-            if ($is_hidden) {
-                $hidden_fields[] = $field;
-            }
-        }
-
-        return $hidden_fields;
+        return $this->_hidden;
     }
 
     /**
