@@ -103,7 +103,7 @@ class BlocksController extends AppController
             ]
         ]);
 
-        if ($this->Blocks->delete($block->block) && $blockTable->delete($block)) {
+        if ($blockTable->delete($block) && $this->Blocks->delete($block->block)) {
             $this->Flash->success(__d("content_blocks", 'The content blocks block has been deleted.'));
         } else {
             $this->Flash->error(__d("content_blocks", 'The content blocks block could not be deleted. Please, try again.'));
