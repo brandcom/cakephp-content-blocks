@@ -44,7 +44,7 @@ class BlocksAreaCell extends Cell
     {
         $area = $this->Areas->findOrCreateForEntity($entity);
 
-        $this->set(compact('area', 'viewVariables'));
+        $this->set(compact('area', 'entity', 'viewVariables'));
     }
 
     public function renderBlock(Block $block, array $viewVariables)

@@ -118,7 +118,7 @@ class AreasTable extends Table
                     /**
                      * @var Block $blockEntity
                      */
-                    if ($blockEntity->canBeOnEntity($entity)) {
+                    if ($blockEntity->isActive() && $blockEntity->canBeOnEntity($entity)) {
                         return $blockEntity;
                     }
 
