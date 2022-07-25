@@ -44,7 +44,7 @@ class BlocksAreaCell extends Cell
     {
         $area = $this->Areas->findOrCreateForEntity($entity);
 
-        $this->set(compact('area', 'viewVariables'));
+        $this->set(compact('area', 'entity', 'viewVariables'));
     }
 
     public function renderBlock(Block $block, array $viewVariables)
@@ -62,6 +62,8 @@ class BlocksAreaCell extends Cell
             $viewVariables,
         );
 
-        $this->set(compact('contentBlock', 'viewVariables'));
+        $owner = $this->Blocks->getOwner($contentBlock);
+
+        $this->set(compact('contentBlock', 'owner', 'viewVariables'));
     }
 }

@@ -4,7 +4,6 @@ namespace ContentBlocks\Model\Entity;
 use App\View\AppView;
 use Cake\Datasource\EntityInterface;
 use Cake\ORM\Entity;
-use Cake\Routing\Router;
 use Cake\Utility\Inflector;
 
 /**
@@ -123,7 +122,13 @@ class Block extends Entity
         $view = new AppView();
         $viewVariables['block'] = $this;
 
-        return $view->element("content_blocks/" . $template_name, $viewVariables);
+        $pluginPrefix = rtrim($this->getPluginPrefix(), '.');
+        $pluginPrefix = $pluginPrefix ? $pluginPrefix . '.' : null;
+
+        return $view->element(
+            sprintf("%scontent_blocks/%s", $pluginPrefix, $template_name),
+            $viewVariables
+        );
     }
 
     /**
@@ -228,5 +233,31 @@ class Block extends Entity
         }
 
         return empty($this->getAllowedEntities()) || in_array($entity->getSource(), $this->getAllowedEntities());
+    }
+
+    /**
+     * Control whether the Block can be added to a BlockArea or rendered
+     * in the template.
+     *
+     * This can be useful if you want to control block usage e.g. for different modes or staging/live environments.
+     *
+     * @return bool
+     */
+    public function isActive(): bool
+    {
+        return true;
+    }
+
+    /**
+     * If the Block's template (Element) comes from a Plugin/Theme,
+     * define the Plugin's prefix.
+     *
+     * e.g. 'MyPlugin'
+     *
+     * @return string|null
+     */
+    public function getPluginPrefix(): ?string
+    {
+        return null;
     }
 }
