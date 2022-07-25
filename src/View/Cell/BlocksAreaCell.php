@@ -62,6 +62,8 @@ class BlocksAreaCell extends Cell
             $viewVariables,
         );
 
-        $this->set(compact('contentBlock', 'viewVariables'));
+        $owner = $this->Blocks->getOwner($contentBlock);
+
+        $this->set(compact('contentBlock', 'owner', 'viewVariables'));
     }
 }
