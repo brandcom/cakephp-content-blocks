@@ -10,7 +10,7 @@ use ContentBlocks\Model\Table\AreasTable;
 <div class="content-blocks-admin">
     <h2>
         <?php if ($area->owner_model === AreasTable::CUSTOM_KEY): ?>
-            <?= __d("content_blocks", "Content Blocks for key '{1}'", [
+            <?= __d("content_blocks", "Content Blocks for key '{0}'", [
                 h($area->owner_id),
             ]) ?>
         <?php else: ?>
