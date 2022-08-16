@@ -133,13 +133,14 @@ class BlocksTable extends Table
     }
 
     /**
-     * Retrieves the owner entity of the block's area.
+     * Retrieves the owner entity of the block's area or null
+     * if the area was created for a custom key.
      *
      * @param Block $block
      * @param array $options - will be passed through: OwnersTable->get($owner_id, $options)
-     * @return EntityInterface
+     * @return EntityInterface|null
      */
-    public function getOwner(Block $block, array $options = []): EntityInterface
+    public function getOwner(Block $block, array $options = []): ?EntityInterface
     {
         $BlockTable = $this->getTableLocator()->get("ContentBlocks.Blocks");
         if ($block->getSource() !== "ContentBlocks.Blocks") {
@@ -155,6 +156,11 @@ class BlocksTable extends Table
         /**
          * @var Block $block
          */
+        if ($block->area->owner_model === AreasTable::CUSTOM_KEY) {
+
+            return null;
+        }
+
         return $this->getTableLocator()
             ->get($block->area->owner_model)
             ->get($block->area->owner_id, $options);
@@ -204,6 +210,14 @@ class BlocksTable extends Table
 
         $owner = $this->getOwner($block);
 
+        if (!is_a($owner, EntityInterface::class)) {
+
+            return null;
+        }
+
+        /**
+         * @var EntityInterface $owner
+         */
         if (method_exists($owner, "getContentBlocksViewUrl")) {
 
             return $owner->getContentBlocksViewUrl($block);

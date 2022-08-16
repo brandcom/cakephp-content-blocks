@@ -2,6 +2,7 @@
 namespace ContentBlocks\View\Cell;
 
 use Cake\Datasource\EntityInterface;
+use Cake\ORM\Entity;
 use Cake\ORM\Table;
 use Cake\View\Cell;
 use ContentBlocks\Model\Entity\Block;
@@ -38,11 +39,13 @@ class BlocksAreaCell extends Cell
     /**
      * Default display method.
      *
+     * @param EntityInterface|string $entityOrKey
+     * @param array $viewVariables
      * @return void
      */
-    public function display(EntityInterface $entity, array $viewVariables=[])
+    public function display($entityOrKey, array $viewVariables=[])
     {
-        $area = $this->Areas->findOrCreateForEntity($entity);
+        $area = $this->Areas->findOrCreateForEntityOrKey($entityOrKey);
 
         $this->set(compact('area', 'viewVariables'));
     }

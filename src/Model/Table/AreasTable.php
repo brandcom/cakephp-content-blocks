@@ -3,12 +3,8 @@ namespace ContentBlocks\Model\Table;
 
 use Cake\Datasource\EntityInterface;
 use Cake\Filesystem\Folder;
-use Cake\ORM\Entity;
 use Cake\ORM\Locator\LocatorAwareTrait;
-use Cake\ORM\Query;
-use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
-use Cake\Routing\Router;
 use Cake\Utility\Inflector;
 use Cake\Validation\Validator;
 use ContentBlocks\Model\Entity\Area;
@@ -32,6 +28,8 @@ use ContentBlocks\Model\Entity\Block;
  */
 class AreasTable extends Table
 {
+    public const CUSTOM_KEY = 'custom_key';
+
     use LocatorAwareTrait;
 
     /**
@@ -77,12 +75,30 @@ class AreasTable extends Table
         return $validator;
     }
 
-    public function findOrCreateForEntity(EntityInterface $entity): Area
+    /**
+     * @param EntityInterface|string $entityOrKey
+     * @return Area
+     */
+    public function findOrCreateForEntityOrKey($entityOrKey): Area
     {
-        $area = $this->findOrCreate([
-            'owner_model' => $entity->getSource(),
-            'owner_id' => $entity->id,
-        ]);
+        if (is_string($entityOrKey)) {
+
+            $area = $this->findOrCreate([
+                'owner_model' => self::CUSTOM_KEY,
+                'owner_id' => $entityOrKey,
+            ]);
+
+        } elseif (is_a($entityOrKey, EntityInterface::class)) {
+
+            $area = $this->findOrCreate([
+                'owner_model' => $entityOrKey->getSource(),
+                'owner_id' => $entityOrKey->id,
+            ]);
+
+        } else {
+
+            throw new \InvalidArgumentException(sprintf('$entityOrKey must be of type "EntityInterface" or "string", but got "%s".', get_class($entityOrKey)));
+        }
 
         $area = $this->get($area->id, [
             'contain' => [

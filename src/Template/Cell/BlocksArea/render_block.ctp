@@ -3,7 +3,7 @@
  * @var \ContentBlocks\View\AppView $this
  * @var \ContentBlocks\Model\Entity\Block $contentBlock
  * @var array $viewVariables
- * @var \Cake\Datasource\EntityInterface $owner
+ * @var \Cake\Datasource\EntityInterface|null $owner
  */
 
 use \Cake\Utility\Inflector;

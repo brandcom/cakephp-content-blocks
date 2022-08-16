@@ -5,6 +5,7 @@ use App\View\AppView;
 use Cake\Datasource\EntityInterface;
 use Cake\ORM\Entity;
 use Cake\Utility\Inflector;
+use ContentBlocks\Model\Table\AreasTable;
 
 /**
  * ContentBlocksBlock Entity
@@ -222,11 +223,16 @@ class Block extends Entity
     /**
      * Check if a block can be on an Entity
      *
-     * @param EntityInterface $entity
+     * @param EntityInterface|null $entity
      * @return bool
      */
-    public function canBeOnEntity(EntityInterface $entity): bool
+    public function canBeOnEntity(?EntityInterface $entity): bool
     {
+        if (null === $entity) {
+
+            return true;
+        }
+
         if (in_array($entity->getSource(), $this->getDisallowedEntities())) {
 
             return false;
