@@ -59,10 +59,16 @@ You will find more on customizing your Block below, but let's now add it to one 
 To add your TextContentBlock to an Entity, e.g., `Article`, add the `BlocksAdmin` cell to your edit template: 
 
 ```
-<?= $this->cell("ContentBlocks.BlocksAdmin", ['entity' => $article]) ?>
+<?= $this->cell("ContentBlocks.BlocksAdmin", ['entityOrKey' => $article]) ?>
 ```
 
 This will render a table representing the BlockArea for the respective entity. 
+
+**New in version 0.3:** You can also create Areas for custom keys, e.g. on other places on your site or for index pages:
+
+```
+<?= $this->cell("ContentBlocks.BlocksAdmin", ['entityOrKey' => 'my_custom_key']) ?>
+```
 
 At the bottom of the table, there will be a button for each of your ContentBlocks. You should already find a button with the title `Text`. 
 

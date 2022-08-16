@@ -37,13 +37,14 @@ class BlocksAdminCell extends Cell
     /**
      * Default display method.
      *
+     * @param EntityInterface|string $entityOrKey
      * @return void
      */
-    public function display(EntityInterface $entity)
+    public function display($entityOrKey)
     {
-        $area = $this->Areas->findOrCreateForEntity($entity);
+        $area = $this->Areas->findOrCreateForEntityOrKey($entityOrKey);
 
-        $availableBlocks = $this->Areas->getAvailableBlocks($entity);
+        $availableBlocks = $this->Areas->getAvailableBlocks($entityOrKey);
 
         $this->set(compact('area', 'availableBlocks'));
     }

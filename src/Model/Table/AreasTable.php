@@ -117,7 +117,11 @@ class AreasTable extends Table
         return $area;
     }
 
-    public function getAvailableBlocks(EntityInterface $entity): array
+    /**
+     * @param EntityInterface|null $entity
+     * @return array
+     */
+    public function getAvailableBlocks(?EntityInterface $entity): array
     {
         $entitiesDir = new Folder(ROOT . DS . 'src' . DS . 'Model' . DS . 'Entity' . DS);
         $blockFiles = $entitiesDir->find(".*\ContentBlock.php");
@@ -135,6 +139,7 @@ class AreasTable extends Table
                      * @var Block $blockEntity
                      */
                     if ($blockEntity->isActive() && $blockEntity->canBeOnEntity($entity)) {
+
                         return $blockEntity;
                     }
 
