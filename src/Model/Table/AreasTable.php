@@ -148,7 +148,7 @@ class AreasTable extends Table
                         /**
                          * TODO add possibility to enable/disable blocks for keys
                          */
-                        return true;
+                        return $blockEntity;
                     }
 
                     if ($blockEntity->canBeOnEntity($entityOrKey)) {
