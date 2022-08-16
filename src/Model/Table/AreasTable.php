@@ -118,16 +118,16 @@ class AreasTable extends Table
     }
 
     /**
-     * @param EntityInterface|null $entity
+     * @param EntityInterface|string $entityOrKey
      * @return array
      */
-    public function getAvailableBlocks(?EntityInterface $entity): array
+    public function getAvailableBlocks($entityOrKey): array
     {
         $entitiesDir = new Folder(ROOT . DS . 'src' . DS . 'Model' . DS . 'Entity' . DS);
         $blockFiles = $entitiesDir->find(".*\ContentBlock.php");
 
         $blocks = array_map(
-            function ($block) use ($entity) {
+            function ($block) use ($entityOrKey) {
 
                 try {
 
@@ -138,7 +138,20 @@ class AreasTable extends Table
                     /**
                      * @var Block $blockEntity
                      */
-                    if ($blockEntity->isActive() && $blockEntity->canBeOnEntity($entity)) {
+                    if (!$blockEntity->isActive()) {
+
+                        return false;
+                    }
+
+                    if (is_string($entityOrKey)) {
+
+                        /**
+                         * TODO add possibility to enable/disable blocks for keys
+                         */
+                        return true;
+                    }
+
+                    if ($blockEntity->canBeOnEntity($entityOrKey)) {
 
                         return $blockEntity;
                     }
