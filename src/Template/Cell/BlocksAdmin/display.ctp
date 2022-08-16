@@ -4,13 +4,21 @@
  * @var \ContentBlocks\View\AppView $this
  * @var array $availableBlocks
  */
+
+use ContentBlocks\Model\Table\AreasTable;
 ?>
 <div class="content-blocks-admin">
     <h2>
-        <?= __d("content_blocks", "Content Blocks for {0} #{1}", [
-            h(\Cake\Utility\Inflector::singularize($area->owner_model)),
-            h($area->owner_id),
-        ]) ?>
+        <?php if ($area->owner_model === AreasTable::CUSTOM_KEY): ?>
+            <?= __d("content_blocks", "Content Blocks for key '{1}'", [
+                h($area->owner_id),
+            ]) ?>
+        <?php else: ?>
+            <?= __d("content_blocks", "Content Blocks for {0} #{1}", [
+                h(\Cake\Utility\Inflector::singularize($area->owner_model)),
+                h($area->owner_id),
+            ]) ?>
+        <?php endif; ?>
     </h2>
     <table>
         <thead>
