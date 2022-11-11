@@ -266,4 +266,14 @@ class Block extends Entity
     {
         return null;
     }
+
+    /**
+     * Display a helpful information for CMS authors above the edit form
+     *
+     * @return string|null
+     */
+    public function getCmsHelperText(): ?string
+    {
+        return null;
+    }
 }

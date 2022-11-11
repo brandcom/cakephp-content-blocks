@@ -43,6 +43,11 @@ $entity_edit_url = [
     </ul>
 </div>
 <?= $this->Form->create($contentBlock, $contentBlock->getFormOptions()) ?>
+<?php if ($contentBlock->getCmsHelperText()): ?>
+    <div class="content-block-cms-helper-text">
+        <?= $contentBlock->getCmsHelperText() ?>
+    </div>
+<?php endif; ?>
 <fieldset>
     <legend>
         <?= __d("content_blocks", "Fields for {0}", [
