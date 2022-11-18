@@ -4,6 +4,7 @@
  */
 
 use \Cake\Utility\Inflector;
+use ContentBlocks\Model\Entity\Traits\BelongsToBlockTrait;
 
 ?>
 <?php if (!empty($contentBlock->getManagedModels())): ?>
@@ -15,6 +16,14 @@ use \Cake\Utility\Inflector;
             <?php
             $singular = Inflector::singularize($model);
             $instance = (new ReflectionClass("App\\Model\\Entity\\{$singular}"))->newInstance();
+            if (!in_array(BelongsToBlockTrait::class, (array)class_uses($instance))) {
+                throw new \ContentBlocks\Error\ContentBlocksException(
+                    sprintf('%s must implement %s. See https://github.com/brandcom/cakephp-content-blocks#7-edit-related-models',
+                        get_class($instance),
+                        BelongsToBlockTrait::class
+                    )
+                );
+            }
             ?>
             <h3>
                 <?= $instance->getTitle() ?>
