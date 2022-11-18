@@ -3,10 +3,13 @@ namespace ContentBlocks\Model\Table;
 
 use Cake\Datasource\EntityInterface;
 use Cake\Filesystem\Folder;
+use Cake\Log\Log;
 use Cake\ORM\Locator\LocatorAwareTrait;
 use Cake\ORM\Table;
 use Cake\Utility\Inflector;
 use Cake\Validation\Validator;
+use ContentBlocks\Error\ContentBlocksException;
+use ContentBlocks\Error\NotABlockException;
 use ContentBlocks\Model\Entity\Area;
 use ContentBlocks\Model\Entity\Block;
 
@@ -97,7 +100,8 @@ class AreasTable extends Table
 
         } else {
 
-            throw new \InvalidArgumentException(sprintf('$entityOrKey must be of type "EntityInterface" or "string", but got "%s".', get_class($entityOrKey)));
+            throw new \InvalidArgumentException(sprintf('$entityOrKey must be of type "EntityInterface" or "string", but got "%s".',
+                get_class($entityOrKey)));
         }
 
         $area = $this->get($area->id, [
@@ -138,6 +142,16 @@ class AreasTable extends Table
                     /**
                      * @var Block $blockEntity
                      */
+                    if (!is_a($blockEntity, Block::class)) {
+
+                        throw new NotABlockException(
+                            sprintf(
+                                '%s must extend %s, if the filename ends with ContentBlock.php.',
+                                get_class($blockEntity),
+                                Block::class,
+                            )
+                        );
+                    }
                     if (!$blockEntity->isActive()) {
 
                         return false;
@@ -158,8 +172,14 @@ class AreasTable extends Table
 
                     return false;
 
+                } catch (ContentBlocksException $contentBlocksException) {
+
+                    throw $contentBlocksException;
+
                 } catch (\Exception $e) {
 
+                    Log::debug(sprintf('Error in AreasTable: %s', $e->getMessage()));
+                    Log::debug($e->getTraceAsString());
                     return false;
                 }
             },
