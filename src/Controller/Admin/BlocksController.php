@@ -4,6 +4,7 @@ namespace ContentBlocks\Controller\Admin;
 use Cake\ORM\Table;
 use Cake\Utility\Inflector;
 use ContentBlocks\Controller\AppController;
+use ContentBlocks\Error\ContentBlocksException;
 use ContentBlocks\Model\Entity\Block;
 use ContentBlocks\Model\Table\BlocksTable;
 
@@ -71,8 +72,21 @@ class BlocksController extends AppController
                 'The content blocks block could not be saved. Please, try again.'));
         }
 
-        $adminViewVariables = $this->{$contentBlock->getSource()}
-            ->getAdminViewVariables($contentBlock);
+        try {
+
+            $adminViewVariables = $this->{$contentBlock->getSource()}
+                ->getAdminViewVariables($contentBlock);
+
+        } catch (\BadMethodCallException $badMethodCallException) {
+
+            throw new ContentBlocksException(
+                sprintf(
+                    'Unable to get some data for editing your instance of %s. Does the ContentBlock\'s table extend %s? See https://github.com/brandcom/cakephp-content-blocks#1-create-blocks',
+                    get_class($contentBlock),
+                    BlocksTable::class
+                )
+            );
+        }
 
         $blockViewUrl = $this->Blocks->getViewUrl($contentBlock);
 
