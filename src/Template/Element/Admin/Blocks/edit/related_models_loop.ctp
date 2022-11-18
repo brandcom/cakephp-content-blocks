@@ -18,7 +18,7 @@ use ContentBlocks\Model\Entity\Traits\BelongsToBlockTrait;
             $instance = (new ReflectionClass("App\\Model\\Entity\\{$singular}"))->newInstance();
             if (!in_array(BelongsToBlockTrait::class, (array)class_uses($instance))) {
                 throw new \ContentBlocks\Error\ContentBlocksException(
-                    sprintf('%s must implement %s. See https://github.com/brandcom/cakephp-content-blocks#7-edit-related-models',
+                    sprintf('%s must use the %s. See https://github.com/brandcom/cakephp-content-blocks#7-edit-related-models',
                         get_class($instance),
                         BelongsToBlockTrait::class
                     )
